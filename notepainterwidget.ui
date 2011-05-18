@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>NotePainterWidget</class>
+ <widget class="QWidget" name="NotePainterWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>360</width>
+    <height>640</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>360</width>
+    <height>640</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>360</width>
+    <height>640</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#NotePainterWidget {
+	background-image: url(:/backgrounds/paperbg_dogear);
+	background-attachment: fixed;
+}</string>
+  </property>
+  <widget class="QWidget" name="BackgroundMenu" native="true">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>360</width>
+     <height>641</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#BackgroundMenu{
+	background-image: url(:/backgrounds/background_menu);
+	background-attachment: fixed;
+}</string>
+   </property>
+   <widget class="QPushButton" name="closeButton">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>360</width>
+      <height>440</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#closeButton{
+	height: 440px;
+	width: 360px;
+	background-image: none;
+	background-color: transparent;
+}
+
+#closeButton:pressed{
+	background-image: none;
+	background-color: transparent;
+}
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QWidget" name="buttonWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>440</y>
+      <width>361</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QPushButton" name="menuButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	height: 55px;
+	width: 55px;
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+ background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #8f7572, stop: 1 #6b5855);
+    border-style: outset;
+    border-radius: 15px;
+    border-width: 3px;
+    border-color: #6b5855;
+}
+ 
+QPushButton:pressed {
+ background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #6b5855, stop: 1 #8f7572);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="images.qrc">
+         <normaloff>:/menu/openMenu</normaloff>:/menu/openMenu</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>27</width>
+         <height>27</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="blackButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	height: 60px;
+	width: 60px;
+    /* Font size just 1.*/
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+
+    border-style: outset;
+    border-radius: 11px;
+    border-width: 3px;
+    border-color: rgb(166, 166, 166);
+
+    background-color: #2c2626;
+}
+ 
+QPushButton:pressed {	
+	border-color: rgb(90, 91, 106);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="8">
+      <widget class="QPushButton" name="penButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	height: 55px;
+	width: 55px;
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #8f7572, stop: 1 #6b5855);
+    border-style: outset;
+    border-radius: 15px;
+    border-width: 3px;
+    border-color: #6b5855;
+}
+ 
+QPushButton:checked {
+ 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #6b5855, stop: 1 #8f7572);
+    border-color: #b9aead;
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="images.qrc">
+         <normaloff>:/icon/penIcon</normaloff>:/icon/penIcon</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>27</width>
+         <height>27</height>
+        </size>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4">
+      <widget class="QPushButton" name="rubberButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	height: 55px;
+	width: 55px;
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #8f7572, stop: 1 #6b5855);
+    border-style: outset;
+    border-radius: 15px;
+    border-width: 3px;
+    border-color: #6b5855;
+}
+ 
+QPushButton:checked {
+ 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #6b5855, stop: 1 #8f7572);
+    border-color: #b9aead;
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="images.qrc">
+         <normaloff>:/icon/rubberIcon</normaloff>:/icon/rubberIcon</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>27</width>
+         <height>27</height>
+        </size>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="clearButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	height: 55px;
+	width: 55px;
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+ background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #8f7572, stop: 1 #6b5855);
+    border-style: outset;
+    border-radius: 15px;
+    border-width: 3px;
+    border-color: #6b5855;
+}
+ 
+QPushButton:pressed {
+ background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #6b5855, stop: 1 #8f7572);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="images.qrc">
+         <normaloff>:/icon/clearIcon</normaloff>:/icon/clearIcon</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>27</width>
+         <height>27</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QPushButton" name="redButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	height: 60px;
+	width: 60px;
+    /* Font size just 1.*/
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+
+    border-style: outset;
+    border-radius: 11px;
+    border-width: 3px;
+    border-color: rgb(166, 166, 166);
+
+    background-color: #d03f3b;
+}
+ 
+QPushButton:pressed {	
+	border-color: rgb(90, 91, 106);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="8">
+      <widget class="QPushButton" name="greenButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	height: 60px;
+	width: 60px;
+    /* Font size just 1.*/
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+
+    border-style: outset;
+    border-radius: 11px;
+    border-width: 3px;
+    border-color: rgb(166, 166, 166);
+
+    background-color: #9ac51b;
+}
+ 
+QPushButton:pressed {	
+	border-color: rgb(90, 91, 106);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QPushButton" name="yellowButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	height: 60px;
+	width: 60px;
+    /* Font size just 1.*/
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+
+    border-style: outset;
+    border-radius: 11px;
+    border-width: 3px;
+    border-color: rgb(166, 166, 166);
+
+    background-color: #ffbd31;
+}
+ 
+QPushButton:pressed {	
+	border-color: rgb(90, 91, 106);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="miniMenuWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>527</y>
+      <width>360</width>
+      <height>113</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="miniMenuButtonWidget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>360</width>
+       <height>113</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QWidget#miniMenuButtonWidget {
+	background-image: url(:/backgrounds/miniMenuBg);
+	background-attachment: fixed;
+}</string>
+     </property>
+     <widget class="QPushButton" name="quitButton">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>279</x>
+        <y>28</y>
+        <width>55</width>
+        <height>55</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>55</width>
+        <height>55</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>55</width>
+        <height>55</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #594d4d, stop: 1 #473a39);
+    border-style: outset;
+    border-radius: 11px;
+    border-width: 3px;
+    border-color: #6b5855;
+}
+
+QPushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #473a39, stop: 1 #594d4d);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="images.qrc">
+        <normaloff>:/icon/closeIcon</normaloff>:/icon/closeIcon</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>27</width>
+        <height>27</height>
+       </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="backButton">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>27</x>
+        <y>28</y>
+        <width>55</width>
+        <height>55</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>55</width>
+        <height>55</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>55</width>
+        <height>55</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #594d4d, stop: 1 #473a39);
+    border-style: outset;
+    border-radius: 11px;
+    border-width: 3px;
+    border-color: #6b5855;
+}
+
+QPushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #473a39, stop: 1 #594d4d);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="images.qrc">
+        <normaloff>:/icon/backIcon</normaloff>:/icon/backIcon</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>27</width>
+        <height>27</height>
+       </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="delButton">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>111</x>
+        <y>28</y>
+        <width>55</width>
+        <height>55</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>55</width>
+        <height>55</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>55</width>
+        <height>55</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #d03f3b, stop: 1 #9c2f2c);
+    border-style: outset;
+    border-radius: 11px;
+    border-width: 3px;
+    border-color: #b9aead;
+}
+
+QPushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #9c2f2c, stop: 1 #d03f3b);
+}
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="images.qrc">
+        <normaloff>:/icon/delIcon</normaloff>:/icon/delIcon</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>27</width>
+        <height>27</height>
+       </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="sendButton">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>195</x>
+        <y>28</y>
+        <width>55</width>
+        <height>55</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>55</width>
+        <height>55</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>55</width>
+        <height>55</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #ffbd31, stop: 1 #bf8e25);
+    border-style: outset;
+    border-radius: 11px;
+    border-width: 3px;
+    border-color: #b9aead;
+}
+
+QPushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #bf8e25, stop: 1 #ffbd31);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="images.qrc">
+        <normaloff>:/icon/sendIcon</normaloff>:/icon/sendIcon</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>27</width>
+        <height>27</height>
+       </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
+ <connections/>
+</ui>

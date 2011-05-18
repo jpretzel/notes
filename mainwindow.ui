@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>360</width>
+    <height>640</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>360</width>
+    <height>640</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>360</width>
+    <height>640</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <property name="styleSheet">
+    <string notr="true">QWidget#centralWidget {
+	background-image: 		url(:/backgrounds/images/woodBackground.png);
+}</string>
+   </property>
+   <widget class="QPushButton" name="addButton">
+    <property name="geometry">
+     <rect>
+      <x>203</x>
+      <y>20</y>
+      <width>111</width>
+      <height>46</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>111</width>
+      <height>46</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>111</width>
+      <height>46</height>
+     </size>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton#addButton {
+	height: 44px;
+	width: 4px;
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #9ac51b, stop: 1 #739414);
+    border-style: outset;
+     border-radius: 15px;
+    border-width: 3px;
+  border-color: #b9aead;
+}
+ 
+QPushButton#addButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #739414, stop: 1 #9ac51b);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/icon/images/addIcon.png</normaloff>:/icon/images/addIcon.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>28</width>
+      <height>28</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="menuButton">
+    <property name="geometry">
+     <rect>
+      <x>46</x>
+      <y>20</y>
+      <width>111</width>
+      <height>46</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+      <horstretch>50</horstretch>
+      <verstretch>50</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>111</width>
+      <height>46</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>111</width>
+      <height>46</height>
+     </size>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#menuButton {
+	height: 44px;
+	width: 4px;
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+ background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #8f7572, stop: 1 #6b5855);
+    border-style: outset;
+    border-radius: 15px;
+    border-width: 3px;
+    border-color: #6b5855;
+}
+ 
+#menuButton:pressed {
+ background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #6b5855, stop: 1 #8f7572);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/menu/images/openMenu.png</normaloff>:/menu/images/openMenu.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>28</width>
+      <height>28</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QWidget" name="menuWidget" native="true">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>360</width>
+      <height>640</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QWidget#menuWidget {
+	background-image: url(:/backgrounds/images/menu_bg);
+	background-attachment: fixed;
+}</string>
+    </property>
+    <widget class="QPushButton" name="delButton_menu">
+     <property name="geometry">
+      <rect>
+       <x>46</x>
+       <y>117</y>
+       <width>111</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	height: 111px;
+	width: 111px;
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #d03f3b, stop: 1 #9c2f2c);
+    border-style: outset;
+    border-radius: 21px;
+    border-width: 6px;
+    border-color: #b9aead;
+}
+
+QPushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #9c2f2c, stop: 1 #d03f3b);
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="images.qrc">
+       <normaloff>:/icon/images/delIcon.png</normaloff>:/icon/images/delIcon.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>69</width>
+       <height>69</height>
+      </size>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="addButton_menu">
+     <property name="geometry">
+      <rect>
+       <x>203</x>
+       <y>117</y>
+       <width>111</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	height: 111px;
+	width: 111px;
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #9ac51b, stop: 1 #739414);
+    border-style: outset;
+    border-radius: 21px;
+    border-width: 6px;
+    border-color: #b9aead;
+}
+
+QPushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #739414, stop: 1 #9ac51b);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="images.qrc">
+       <normaloff>:/icon/images/addIcon.png</normaloff>:/icon/images/addIcon.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>69</width>
+       <height>69</height>
+      </size>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="sendButton_menu">
+     <property name="geometry">
+      <rect>
+       <x>46</x>
+       <y>261</y>
+       <width>111</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	height: 111px;
+	width: 111px;
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #ffbd31, stop: 1 #bf8e25);
+    border-style: outset;
+    border-radius: 21px;
+    border-width: 6px;
+    border-color: #b9aead;
+}
+
+QPushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #bf8e25, stop: 1 #ffbd31);
+}
+
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="images.qrc">
+       <normaloff>:/icon/images/sendIcon.png</normaloff>:/icon/images/sendIcon.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>69</width>
+       <height>69</height>
+      </size>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="helpButton_menu">
+     <property name="geometry">
+      <rect>
+       <x>203</x>
+       <y>261</y>
+       <width>111</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	height: 111px;
+	width: 111px;
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #3741ac, stop: 1 #293181);
+    border-style: outset;
+    border-radius: 21px;
+    border-width: 6px;
+    border-color: #b9aead;
+}
+
+QPushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #293181, stop: 1 #3741ac);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="images.qrc">
+       <normaloff>:/icon/images/helpIcon.png</normaloff>:/icon/images/helpIcon.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>70</width>
+       <height>70</height>
+      </size>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="menuCloseButton">
+     <property name="geometry">
+      <rect>
+       <x>46</x>
+       <y>20</y>
+       <width>111</width>
+       <height>46</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>50</horstretch>
+       <verstretch>50</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>111</width>
+       <height>46</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>111</width>
+       <height>46</height>
+      </size>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#menuCloseButton {
+	height: 44px;
+	width: 4px;
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+ background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #8f7572, stop: 1 #6b5855);
+    border-style: outset;
+    border-radius: 15px;
+    border-width: 3px;
+    border-color: #6b5855;
+}
+ 
+#menuCloseButton:pressed {
+ background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #6b5855, stop: 1 #8f7572);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="images.qrc">
+       <normaloff>:/menu/images/closeMenu.png</normaloff>:/menu/images/closeMenu.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>28</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="quitButton_menu">
+     <property name="geometry">
+      <rect>
+       <x>203</x>
+       <y>405</y>
+       <width>111</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	height: 111px;
+	width: 111px;
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #594d4d, stop: 1 #473a39);
+    border-style: outset;
+    border-radius: 21px;
+    border-width: 6px;
+    border-color: #2c2626;
+}
+
+QPushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #473a39, stop: 1 #594d4d);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="images.qrc">
+       <normaloff>:/icon/images/closeIcon.png</normaloff>:/icon/images/closeIcon.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>69</width>
+       <height>69</height>
+      </size>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QScrollArea" name="scrollArea">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>90</y>
+      <width>360</width>
+      <height>550</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>1</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>360</width>
+      <height>550</height>
+     </size>
+    </property>
+    <property name="sizeIncrement">
+     <size>
+      <width>150</width>
+      <height>150</height>
+     </size>
+    </property>
+    <property name="baseSize">
+     <size>
+      <width>343</width>
+      <height>550</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>false</kerning>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QScrollArea{
+	background-color: transparent;
+}</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="lineWidth">
+     <number>0</number>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAsNeeded</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignJustify|Qt::AlignTop</set>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>360</width>
+       <height>550</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>1</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>343</width>
+       <height>550</height>
+      </size>
+     </property>
+     <property name="sizeIncrement">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="baseSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QWidget{
+	background-color: transparent;
+}</string>
+     </property>
+     <widget class="QWidget" name="noteWidget" native="true">
+      <property name="geometry">
+       <rect>
+        <x>17</x>
+        <y>0</y>
+        <width>326</width>
+        <height>560</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>1</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>326</width>
+        <height>560</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="sizeIncrement">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="baseSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2" rowstretch="0" columnstretch="0">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
+       <property name="margin">
+        <number>2</number>
+       </property>
+       <property name="spacing">
+        <number>2</number>
+       </property>
+      </layout>
+     </widget>
+    </widget>
+   </widget>
+   <zorder>addButton</zorder>
+   <zorder>menuButton</zorder>
+   <zorder>scrollArea</zorder>
+   <zorder>menuWidget</zorder>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/backgrounds" lang="de">
+        <file>images/background_menu.png</file>
+        <file>images/menu_bg.png</file>
+        <file>images/miniMenuBg.png</file>
+        <file>images/paperbg_slide.png</file>
+        <file>images/woodBackground.png</file>
+    </qresource>
+    <qresource prefix="/icon" lang="de">
+        <file>images/addIcon.png</file>
+        <file>images/backIcon.png</file>
+        <file>images/clearIcon.png</file>
+        <file>images/closeIcon.png</file>
+        <file>images/delIcon.png</file>
+        <file>images/helpIcon.png</file>
+        <file>images/penIcon.png</file>
+        <file>images/rubberIcon.png</file>
+        <file>images/sendIcon.png</file>
+    </qresource>
+    <qresource prefix="/menu" lang="de">
+        <file>images/closeMenu.png</file>
+        <file>images/openMenu.png</file>
+    </qresource>
+</RCC>
