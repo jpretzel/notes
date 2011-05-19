@@ -6,15 +6,23 @@ DEPLOYMENTFOLDERS = # file1 dir1
 
 symbian:TARGET.UID3 = 0xE0798E68
 
-# Allow network access on Symbian
-symbian:TARGET.CAPABILITY += NetworkServices
-
 # If your application uses the Qt Mobility libraries, uncomment
 # the following lines and add the respective components to the 
 # MOBILITY variable. 
 CONFIG += mobility
 MOBILITY += systeminfo \
-            messaging
+            messaging \
+            contacts
+
+INCLUDEPATH += /Users/sebastian/Downloads/qt-mobility-opensource-src-1.2.0/src/messaging
+
+symbian:TARGET.CAPABILITY = NetworkServices \
+        LocalServices \
+        ReadUserData \
+        WriteUserData \
+        UserEnvironment \
+        ReadDeviceData \
+        WriteDeviceData
 
 SOURCES += main.cpp \
             mainwindow.cpp \
@@ -34,3 +42,4 @@ qtcAddDeployment()
 
 RESOURCES += \
     images.qrc
+

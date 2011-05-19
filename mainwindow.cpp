@@ -20,7 +20,14 @@
 #include <QSwipeGesture>
 #include <QPair>
 #include <QPixmap>
+#include <QMessageBox>
 #include <QString>
+
+#include <qmessageservice.h>
+#include <QContactManager>
+#include <QList>
+#include <QContact>
+#include <QContactDetail>
 
 #define NOTES_PER_PAGE 4
 #define NOTES_PER_ROW  2
@@ -233,12 +240,26 @@ void MainWindow::loadNotes()
 }
 
 void MainWindow::on_sendButton_menu_clicked(){
-    /*qDebug() << "[EMAIL]";
+    qDebug() << "[EMAIL]";
+
+    QStringList availableManagers = QContactManager::availableManagers();
+
+        for(int managerIdx = 0; managerIdx < availableManagers.count(); managerIdx++) {
+            QContactManager * manager = new QContactManager(availableManagers.at(managerIdx));
+
+            if(manager) {
+                QList<QContact> contacts = manager->contacts();
+                for(int i = 0; i < contacts.count(); i++){
+                    qDebug() << contacts.at(i);
+                }
+                delete manager;
+            }
+        }
 
     QMessageService * service = new QMessageService();
     QMessageAccount * account = new QMessageAccount();
 
-    QMessage msg = new QMessage();
+    QMessage msg;
     msg.setType(QMessage::Email);
 
     // Setting the stored EmailAdress as sender.
@@ -248,9 +269,8 @@ void MainWindow::on_sendButton_menu_clicked(){
     msg.setSubject("notes for you :)");
 
     if(service->send(msg)){
-        QMessageBox::information(0,tr("Success"),tr("Email sent successfully!"));
-        hide();
-    } else QMessageBox::warning(0,tr("Failed"),tr("Unable to send Email!"));*/
+        qDebug() << "[EMAIL] Email sent successfully!";
+    }else qDebug() << "[EMAIL] Unable to send Email!";
 }
 
 
