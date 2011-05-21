@@ -13,6 +13,7 @@
 #include <QtGui/QMainWindow>
 #include "notebutton.h"
 #include <QGridLayout>
+#include <QButtonGroup>
 
 
 namespace Ui {
@@ -45,6 +46,9 @@ private:
     int _pageCounter;
     int _itemCounter;
     int _currentPage;
+    int _startI;
+    QString _loadDir;
+    QString _dir;
     QPoint _p1;
     QPoint _p2;
     void displayPage(int);
@@ -52,6 +56,7 @@ private:
     QGridLayout * _gridLayout;
     NotePainterWidget *_notepainterwidget;
     QList<NoteButton *> _noteButtonList;
+    QButtonGroup _noteButtonGroup;
     void addNoteToGrid(NoteButton *b);
     void loadNotes();
     void sendNoteViaEmail();

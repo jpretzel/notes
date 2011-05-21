@@ -12,8 +12,6 @@
 
 #include <QtCore/QCoreApplication>
 
-#include <QSystemInfo>
-
 #include <QDebug>
 #include <QDir>
 #include <QGestureEvent>
@@ -22,10 +20,12 @@
 #include <QPixmap>
 #include <QMessageBox>
 #include <QString>
+#include <QList>
+#include <QPainter>
 
 #include <qmessageservice.h>
 #include <QContactManager>
-#include <QList>
+#include <QSystemInfo>
 #include <QContact>
 #include <QContactDetail>
 
@@ -40,8 +40,21 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    QSystemInfo info(this);
-    qDebug() << info.currentLanguage();
+#if defined(Q_WS_MAC)
+    _loadDir = "/Users/jan/Desktop/notes/";
+    // startI = 2 um . und .. auszuschlieﬂen
+    _startI = 2;
+    _dir = "/";
+#else
+    // überprüfen, ob eine speicherkarte im Gerät ist
+    if (QDir("e:\\").exists()) {
+        _loadDir = "e:\\Development\\notes\\";
+    } else {
+        _loadDir = "c:\\Development\\notes\\";
+    }
+    _startI = 0;
+    _dir = "\\";
+#endif
 
     _rowCounter     = 0;
     _columnCounter  = 0;
@@ -57,7 +70,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->menuWidget->setEnabled(false);
 
     // for swipeGesture
-    setMouseTracking(true);
+    //setMouseTracking(true);
     loadNotes();
     displayPage(0);
 }
@@ -109,10 +122,13 @@ void MainWindow::on_addButton_clicked()
     qDebug() << "[QUICK ADD NEW NOTE]";
 
     NoteButton * nb = new NoteButton();
+    addNoteToGrid(nb);
 }
 
 void MainWindow::addNoteToGrid(NoteButton *b){
     qDebug() << "[ADDING NOTE TO GRID]" << b;
+
+    _noteButtonList.append(b);
 
     int row, column, items;
 
@@ -172,46 +188,30 @@ void MainWindow::updateNoteIcons(){
 
 void MainWindow::loadNotes()
 {
-    QString loadDir;
-    QString dir;
-#if defined(Q_WS_MAC)
-    loadDir = "/Users/sebastian/Desktop/notes/";
-    // startI = 2 um . und .. auszuschlieﬂen
-    int startI = 2;
-    dir = "/";
-#else
-    // ¸berpr¸fen, ob eine speicherkarte im Ger‰t ist
-    if (QDir("e:\\").exists()) {
-        loadDir = "e:\\Development\\notes\\";
-    } else {
-        loadDir = "c:\\Development\\notes\\";
-    }
-    int startI = 0;
-    dir = "\\";
-#endif
-
-    if (!QDir(loadDir).exists())
+    if (!QDir(_loadDir).exists())
     {
-        QDir().mkdir(loadDir);
+        QDir().mkdir(_loadDir);
     }
 
-    QStringList dirEntrys = QDir(loadDir).entryList();
+    QStringList dirEntrys = QDir(_loadDir).entryList();
     QString tempDir;
-    QPixmap pixmap;
+    QPixmap pixmap(360, 640);
 
-    for(int i = startI; i < dirEntrys.size(); i++)
+    for(int i = _startI; i < dirEntrys.size(); i++)
     {
         tempDir = dirEntrys.at(i);
 
         // die erste Seite der Note holen
         // sollte diese nicht existieren weil es sich um eine leere Seite handelt
         // muss eine leere Pixmap erstellt und ¸bergeben werden
-        QFile firstPage(loadDir + tempDir + dir + tempDir + "_0.png");
+        QFile firstPage(_loadDir + tempDir + _dir + tempDir + "_0.png");
         if (firstPage.exists())
         {
-            pixmap = QPixmap(loadDir + tempDir + dir + tempDir + "_0.png");
+            pixmap.fill(Qt::white);
+            QPainter painter(&pixmap);
+            QPixmap temp = QPixmap(_loadDir + tempDir + _dir + tempDir + "_0.png");
+            painter.drawPixmap(QPoint(0, 0), temp);
         } else {
-            pixmap = QPixmap(360, 640);
             pixmap.fill(Qt::transparent);
         }
 
@@ -230,6 +230,7 @@ void MainWindow::loadNotes()
             column = 0;
         }
         _gridLayout->addWidget(_noteButtonList.at(i), row, column++, Qt::AlignTop);
+        _noteButtonGroup.addButton(_noteButtonList.at(i), i);
     }
 
     ui->scrollAreaWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.length()/2));
@@ -255,6 +256,7 @@ void MainWindow::on_sendButton_menu_clicked(){
             }
         }*/
 
+
     QMessageManager * manager = new QMessageManager;
     QMessageService * service = new QMessageService;
     QMessageAccount * account = new QMessageAccount;
@@ -276,9 +278,23 @@ void MainWindow::on_sendButton_menu_clicked(){
     msg.setTo(sendTo);
     msg.setSubject("notes for you :)");
 
+
+    QString noteName = _noteButtonList.at(_noteButtonGroup.checkedId())->getFileName();
+    QStringList notePages = QDir(_loadDir + noteName).entryList();
+    QStringList absPath;
+
+    for(int i = 0; i < notePages.size(); i++)
+    {
+        absPath.append(_loadDir + noteName + _dir + notePages.at(i));
+    }
+
+
+    msg.appendAttachments(absPath);
+
     if(service->send(msg)){
         qDebug() << "[EMAIL] Email sent successfully!";
     }else qDebug() << "[EMAIL] Unable to send Email!";
+
 }
 
 

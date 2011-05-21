@@ -4,8 +4,9 @@
 NoteButton::NoteButton()
 {
     setIconSize(QSize(111, 197));
-    setStyleSheet("QPushButton#noteButton{height: 197px; width: 111px;}");
+    setStyleSheet("NoteButton{height:197px;width:111px;}");
     setFlat(true);
+    setCheckable(true);
     painterWidget = new NotePainterWidget();
     #if defined(Q_WS_MAC)
         painterWidget->show();
@@ -18,9 +19,10 @@ NoteButton::NoteButton(QPixmap pixmap, QString fileName)
 {
     setIconSize(QSize(111, 197));
     setIcon(pixmap);
-    this->fileName = fileName;
-    setStyleSheet("QPushButton#noteButton{height: 197px; width: 111px;}");
+    this->_fileName = fileName;
+    setStyleSheet("NoteButton:checked{border-style:outset;border-radius:21px;border-width:6px;border-color:#b9aead;}");
     setFlat(true);
+    setCheckable(true);
 }
 
 void NoteButton::loadStyleSheet(){
@@ -45,19 +47,21 @@ bool NoteButton::isHighlighted(){
 }
 
 void NoteButton::mousePressEvent(QMouseEvent *){
-    if(_highlight){
-        setHighlighted(false);
-    }else{
-        setHighlighted(true);
+    if(!isChecked())
+    {
+        setChecked(true);
+    } else {
+        openNote();
     }
 }
 
-void NoteButton::mouseDoubleClickEvent(QMouseEvent *){
+void NoteButton::openNote()
+{
     qDebug() << "[creating new NotePainterWidget]";
     painterWidget = new NotePainterWidget();
 
-    if(!fileName.isEmpty()){
-        painterWidget->setFileName(this->fileName);
+    if(!_fileName.isEmpty()){
+        painterWidget->setFileName(this->_fileName);
         painterWidget->loadNotes();
     }
 
@@ -67,6 +71,11 @@ void NoteButton::mouseDoubleClickEvent(QMouseEvent *){
         painterWidget->showFullScreen();
     #endif
     doConnect();
+}
+
+QString NoteButton::getFileName()
+{
+    return _fileName;
 }
 
 void NoteButton::doConnect(){

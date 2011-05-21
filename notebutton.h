@@ -15,20 +15,21 @@ public:
     void updateIcon();
     NotePainterWidget * getNotePainterWidget();
     void setNotePainterWidget(NotePainterWidget * p);
+    QString getFileName();
 
 private:
     void loadStyleSheet();
     bool _highlight;
-    QString fileName;
+    QString _fileName;
     NotePainterWidget *painterWidget;
     void doConnect();
+    void openNote();
 
 public slots:
     void NotePainterWidgetClosed();
 
 protected:
     void mousePressEvent( QMouseEvent * );
-    void mouseDoubleClickEvent( QMouseEvent * );
 
 };
 

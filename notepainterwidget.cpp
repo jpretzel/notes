@@ -199,7 +199,7 @@ void NotePainterWidget::loadNotes()
         QString dir;
         int startI;
 #if defined(Q_WS_MAC)
-        loadDir = "/Users/sebastian/Desktop/notes/" + _fileName + "/";
+        loadDir = "/Users/jan/Desktop/notes/" + _fileName + "/";
         dir = "/";
 
         // handle the "." and ".." folders
@@ -253,7 +253,7 @@ void NotePainterWidget::saveImages()
         QString saveDir;
         QString dir;
 #if defined(Q_WS_MAC)
-        saveDir = "/Users/sebastian/Desktop/notes/";
+        saveDir = "/Users/jan/Desktop/notes/";
         dir = "/";
 #else
         // check for flash media

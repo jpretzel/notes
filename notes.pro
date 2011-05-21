@@ -21,6 +21,8 @@ symbian:TARGET.CAPABILITY = NetworkServices \
         ReadUserData \
         WriteUserData \
         UserEnvironment \
+        ReadDeviceData \
+        WriteDeviceData
 
 SOURCES += main.cpp \
             mainwindow.cpp \
