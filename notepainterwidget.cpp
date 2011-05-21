@@ -388,10 +388,10 @@ void NotePainterWidget::on_menuButton_clicked()
 {
     if (ui->miniMenuWidget->isHidden())
     {
-        ui->menuButton->setIcon(QIcon(":/menu/closeMenu"));
+        ui->menuButton->setIcon(QIcon(":/menu/images/closeMenu"));
         ui->miniMenuWidget->setVisible(true);
     } else {
-        ui->menuButton->setIcon(QIcon(":/menu/openMenu"));
+        ui->menuButton->setIcon(QIcon(":/menu/images/openMenu"));
         ui->miniMenuWidget->setVisible(false);
     }
 }
