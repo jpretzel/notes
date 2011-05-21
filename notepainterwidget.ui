@@ -33,7 +33,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">#NotePainterWidget {
-	background-image: url(:/backgrounds/paperbg_dogear);
+	background-image: url(:/backgrounds/images/paperbg_slide);
 	background-attachment: fixed;
 }</string>
   </property>
@@ -51,7 +51,7 @@
    </property>
    <property name="styleSheet">
     <string notr="true">#BackgroundMenu{
-	background-image: url(:/backgrounds/background_menu);
+	background-image: url(:/backgrounds/images/background_menu);
 	background-attachment: fixed;
 }</string>
    </property>
@@ -137,7 +137,7 @@ QPushButton:pressed {
        </property>
        <property name="icon">
         <iconset resource="images.qrc">
-         <normaloff>:/menu/openMenu</normaloff>:/menu/openMenu</iconset>
+         <normaloff>:/menu/images/openMenu.png</normaloff>:/menu/images/openMenu.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -239,7 +239,7 @@ QPushButton:checked {
        </property>
        <property name="icon">
         <iconset resource="images.qrc">
-         <normaloff>:/icon/penIcon</normaloff>:/icon/penIcon</iconset>
+         <normaloff>:/icon/images/penIcon.png</normaloff>:/icon/images/penIcon.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -301,7 +301,7 @@ QPushButton:checked {
        </property>
        <property name="icon">
         <iconset resource="images.qrc">
-         <normaloff>:/icon/rubberIcon</normaloff>:/icon/rubberIcon</iconset>
+         <normaloff>:/icon/images/rubberIcon.png</normaloff>:/icon/images/rubberIcon.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -359,7 +359,7 @@ QPushButton:pressed {
        </property>
        <property name="icon">
         <iconset resource="images.qrc">
-         <normaloff>:/icon/clearIcon</normaloff>:/icon/clearIcon</iconset>
+         <normaloff>:/icon/images/clearIcon.png</normaloff>:/icon/images/clearIcon.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -532,7 +532,7 @@ QPushButton:pressed {
      </property>
      <property name="styleSheet">
       <string notr="true">QWidget#miniMenuButtonWidget {
-	background-image: url(:/backgrounds/miniMenuBg);
+	background-image: url(:/backgrounds/images/miniMenuBg);
 	background-attachment: fixed;
 }</string>
      </property>
@@ -583,7 +583,7 @@ QPushButton:pressed {
       </property>
       <property name="icon">
        <iconset resource="images.qrc">
-        <normaloff>:/icon/closeIcon</normaloff>:/icon/closeIcon</iconset>
+        <normaloff>:/icon/images/closeIcon.png</normaloff>:/icon/images/closeIcon.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -642,7 +642,7 @@ QPushButton:pressed {
       </property>
       <property name="icon">
        <iconset resource="images.qrc">
-        <normaloff>:/icon/backIcon</normaloff>:/icon/backIcon</iconset>
+        <normaloff>:/icon/images/backIcon.png</normaloff>:/icon/images/backIcon.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -702,7 +702,7 @@ QPushButton:pressed {
       </property>
       <property name="icon">
        <iconset resource="images.qrc">
-        <normaloff>:/icon/delIcon</normaloff>:/icon/delIcon</iconset>
+        <normaloff>:/icon/images/delIcon.png</normaloff>:/icon/images/delIcon.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -761,7 +761,7 @@ QPushButton:pressed {
       </property>
       <property name="icon">
        <iconset resource="images.qrc">
-        <normaloff>:/icon/sendIcon</normaloff>:/icon/sendIcon</iconset>
+        <normaloff>:/icon/images/sendIcon.png</normaloff>:/icon/images/sendIcon.png</iconset>
       </property>
       <property name="iconSize">
        <size>
