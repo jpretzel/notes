@@ -6,7 +6,7 @@ NoteButton::NoteButton()
     setIconSize(QSize(111, 197));
     setStyleSheet("QPushButton#noteButton{height: 197px; width: 111px;}");
     setFlat(true);
-    update();
+    painterWidget = new NotePainterWidget();
     #if defined(Q_WS_MAC)
         painterWidget->show();
     #else

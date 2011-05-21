@@ -109,7 +109,6 @@ void MainWindow::on_addButton_clicked()
     qDebug() << "[QUICK ADD NEW NOTE]";
 
     NoteButton * nb = new NoteButton();
-    addNoteToGrid(nb);
 }
 
 void MainWindow::addNoteToGrid(NoteButton *b){
@@ -176,7 +175,7 @@ void MainWindow::loadNotes()
     QString loadDir;
     QString dir;
 #if defined(Q_WS_MAC)
-    loadDir = "/Users/jan/Desktop/notes/";
+    loadDir = "/Users/sebastian/Desktop/notes/";
     // startI = 2 um . und .. auszuschlieﬂen
     int startI = 2;
     dir = "/";
@@ -333,4 +332,9 @@ void MainWindow::showExpanded()
 #else
     showFullScreen();
 #endif
+}
+
+void MainWindow::on_helpButton_menu_clicked()
+{
+    loadNotes();
 }
