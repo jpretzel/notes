@@ -14,15 +14,13 @@ MOBILITY += systeminfo \
             messaging \
             contacts
 
-INCLUDEPATH += /Users/sebastian/Downloads/qt-mobility-opensource-src-1.2.0/src/messaging
+#INCLUDEPATH += /Users/sebastian/Downloads/qt-mobility-opensource-src-1.2.0/src/messaging
 
 symbian:TARGET.CAPABILITY = NetworkServices \
         LocalServices \
         ReadUserData \
         WriteUserData \
         UserEnvironment \
-        ReadDeviceData \
-        WriteDeviceData
 
 SOURCES += main.cpp \
             mainwindow.cpp \

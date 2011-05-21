@@ -242,7 +242,7 @@ void MainWindow::loadNotes()
 void MainWindow::on_sendButton_menu_clicked(){
     qDebug() << "[EMAIL]";
 
-    QStringList availableManagers = QContactManager::availableManagers();
+    /*QStringList availableManagers = QContactManager::availableManagers();
 
         for(int managerIdx = 0; managerIdx < availableManagers.count(); managerIdx++) {
             QContactManager * manager = new QContactManager(availableManagers.at(managerIdx));
@@ -254,18 +254,27 @@ void MainWindow::on_sendButton_menu_clicked(){
                 }
                 delete manager;
             }
-        }
+        }*/
 
-    QMessageService * service = new QMessageService();
-    QMessageAccount * account = new QMessageAccount();
+    QMessageManager * manager = new QMessageManager;
+    QMessageService * service = new QMessageService;
+    QMessageAccount * account = new QMessageAccount;
+    QMessageAddress sendTo(QMessageAddress::Email, "jan.pretzel@deepsource.de");
 
     QMessage msg;
     msg.setType(QMessage::Email);
 
     // Setting the stored EmailAdress as sender.
-    msg.setParentAccountId(account->defaultAccount(QMessage::Email));
+    msg.setParentAccountId(QMessageAccount::defaultAccount(QMessage::Email));
 
-    msg.setTo(QMessageAddress(QMessageAddress::Email, "sebastian.ullrich@deepsource.de"));
+    foreach(const QMessageAccountId &id, manager->queryAccounts())
+    {
+        QMessageAccount account(id);
+        qDebug() << account.name() << ": " << account.messageTypes();
+        QMessageBox::about(this, account.name(), account.name());
+
+    }
+    msg.setTo(sendTo);
     msg.setSubject("notes for you :)");
 
     if(service->send(msg)){
