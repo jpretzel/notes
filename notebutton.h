@@ -18,6 +18,8 @@ public:
     QString getFileName();
 
 private:
+    QPoint _p1;
+    QPoint _p2;
     void loadStyleSheet();
     bool _highlight;
     QString _fileName;
@@ -33,7 +35,8 @@ signals:
     void updateMe(NoteButton *);
 
 protected:
-    void mousePressEvent( QMouseEvent * );
+    void mousePressEvent(QMouseEvent *);
+    void mouseReleaseEvent(QMouseEvent *);
 
 };
 

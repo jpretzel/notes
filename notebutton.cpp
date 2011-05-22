@@ -1,6 +1,7 @@
 #include "notebutton.h"
 #include <QDebug>
 #include <QPainter>
+#include <QMouseEvent>
 
 NoteButton::NoteButton()
 {
@@ -15,6 +16,9 @@ NoteButton::NoteButton()
 #else
     painterWidget->showFullScreen();
 #endif
+
+    _p1             = QPoint(-1, -1);
+    _p2             = QPoint(-1, -1);
 }
 
 NoteButton::NoteButton(QPixmap pixmap, QString fileName)
@@ -26,6 +30,9 @@ NoteButton::NoteButton(QPixmap pixmap, QString fileName)
     setStyleSheet("NoteButton:checked{background-image: url(:/backgrounds/images/highlightframe.png);}");
     setFlat(true);
     setCheckable(true);
+
+    _p1             = QPoint(-1, -1);
+    _p2             = QPoint(-1, -1);
 }
 
 void NoteButton::loadStyleSheet(){
@@ -56,13 +63,18 @@ bool NoteButton::isHighlighted(){
     return _highlight;
 }
 
-void NoteButton::mousePressEvent(QMouseEvent *){
-    if(!isChecked())
-    {
-        setChecked(true);
-    } else {
+void NoteButton::mousePressEvent(QMouseEvent *event)
+{
+    _p1 = event->pos();
+}
+
+void NoteButton::mouseReleaseEvent(QMouseEvent *event)
+{
+    _p2 = event->pos();
+    if(abs(_p1.x() - _p2.x()) < 10 && abs(_p1.y() - _p2.y()) < 10 && isChecked())
         openNote();
-    }
+
+    setChecked(true);
 }
 
 void NoteButton::openNote()
