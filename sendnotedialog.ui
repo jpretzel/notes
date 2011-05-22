@@ -25,43 +25,135 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QDialog {
+	background-image: 		url(:/backgrounds/images/woodBackground.png);
+}</string>
+  </property>
   <widget class="QPushButton" name="okButton">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>600</y>
-     <width>114</width>
-     <height>32</height>
+     <x>203</x>
+     <y>369</y>
+     <width>111</width>
+     <height>110</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+	height: 111px;
+	width: 111px;
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #9ac51b, stop: 1 #739414);
+    border-style: outset;
+    border-radius: 21px;
+    border-width: 6px;
+    border-color: #b9aead;
+}
+
+QPushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #739414, stop: 1 #9ac51b);
+}</string>
+   </property>
    <property name="text">
-    <string>OK</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icon/images/sendIcon.png</normaloff>:/icon/images/sendIcon.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>69</width>
+     <height>69</height>
+    </size>
    </property>
   </widget>
   <widget class="QPushButton" name="cancelButton">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>600</y>
-     <width>114</width>
-     <height>32</height>
+     <x>46</x>
+     <y>369</y>
+     <width>111</width>
+     <height>110</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+	height: 111px;
+	width: 111px;
+    font: 1em;
+    margin: 0 1px 0 1px;
+    color: white;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #d03f3b, stop: 1 #9c2f2c);
+    border-style: outset;
+    border-radius: 21px;
+    border-width: 6px;
+    border-color: #b9aead;
+}
+
+QPushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #9c2f2c, stop: 1 #d03f3b);
+}
+
+</string>
+   </property>
    <property name="text">
-    <string>Cancel</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icon/images/backIcon.png</normaloff>:/icon/images/backIcon.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>69</width>
+     <height>69</height>
+    </size>
    </property>
   </widget>
   <widget class="QLineEdit" name="emailInput">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>260</y>
-     <width>321</width>
-     <height>22</height>
+     <x>46</x>
+     <y>290</y>
+     <width>271</width>
+     <height>50</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>26</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>150</y>
+     <width>90</width>
+     <height>95</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget {
+	background-image: url(:/icon/images/email.png);
+}</string>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
  <connections/>
 </ui>

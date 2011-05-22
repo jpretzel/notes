@@ -18,6 +18,7 @@
         <file>images/penIcon.png</file>
         <file>images/rubberIcon.png</file>
         <file>images/sendIcon.png</file>
+        <file>images/email.png</file>
     </qresource>
     <qresource prefix="/menu" lang="de">
         <file>images/closeMenu.png</file>

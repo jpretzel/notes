@@ -5,7 +5,7 @@
 NoteButton::NoteButton()
 {
     setIconSize(QSize(111, 197));
-    setStyleSheet("NoteButton{height:197px;width:111px;}");
+    setStyleSheet("NoteButton:checked{background-image: url(:/backgrounds/images/highlightframe.png);}");
     setFlat(true);
     setCheckable(true);
     painterWidget = new NotePainterWidget();
