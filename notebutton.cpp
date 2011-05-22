@@ -107,6 +107,7 @@ void NoteButton::NotePainterWidgetClosed(){
     _fileName = painterWidget->getFilename();
     emit(updateMe(this));
     painterWidget->deleteLater();
+    painterWidget = NULL;
 }
 
 void NoteButton::setNotePainterWidget(NotePainterWidget * p){
