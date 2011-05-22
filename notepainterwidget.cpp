@@ -228,13 +228,14 @@ void NotePainterWidget::loadNotes()
     if (_fileName != "")
     {
         QString loadDir = _loadDir + _fileName + _dir;
-        QStringList notePages = QDir(_loadDir).entryList();
+        QStringList notePages = QDir(loadDir).entryList();
         if (notePages.size() > _startI)
         {
             for (int i = _startI; i < notePages.size(); i++)
             {
                 // load the image as QPixmap and store it to the right page
                 QPixmap pixmap(loadDir + notePages.at(i));
+                qDebug() << loadDir + notePages.at(i);
                 _pixmap[notePages.at(i).mid(13, 1).toInt()] = pixmap;
             }
         }

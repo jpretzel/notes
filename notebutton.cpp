@@ -10,15 +10,16 @@ NoteButton::NoteButton()
     setCheckable(true);
     painterWidget = new NotePainterWidget();
     doConnect();
-    #if defined(Q_WS_MAC)
-            painterWidget->show();
-    #else
-            painterWidget->showFullScreen();
-    #endif
+#if defined(Q_WS_MAC)
+    painterWidget->show();
+#else
+    painterWidget->showFullScreen();
+#endif
 }
 
 NoteButton::NoteButton(QPixmap pixmap, QString fileName)
 {
+    painterWidget = NULL;
     setIconSize(QSize(111, 197));
     setIcon(pixmap);
     this->_fileName = fileName;
@@ -66,19 +67,22 @@ void NoteButton::mousePressEvent(QMouseEvent *){
 
 void NoteButton::openNote()
 {
-    painterWidget = new NotePainterWidget();
-    if(!_fileName.isEmpty()){
-        qDebug() << "[OPEN] openNote with filename:" << _fileName;
-        qDebug() << "[OPEN] parent:" << this;
-        painterWidget->setFileName(this->_fileName);
-        painterWidget->loadNotes();
+    if(painterWidget == NULL)
+    {
+        painterWidget = new NotePainterWidget();
+        if(!_fileName.isEmpty()){
+            qDebug() << "[OPEN] openNote with filename:" << _fileName;
+            qDebug() << "[OPEN] parent:" << this;
+            painterWidget->setFileName(this->_fileName);
+            painterWidget->loadNotes();
+        }
     }
 
-    #if defined(Q_WS_MAC)
-        painterWidget->show();
-    #else
-        painterWidget->showFullScreen();
-    #endif
+#if defined(Q_WS_MAC)
+    painterWidget->show();
+#else
+    painterWidget->showFullScreen();
+#endif
     doConnect();
 }
 
@@ -110,6 +114,14 @@ void NoteButton::setNotePainterWidget(NotePainterWidget * p){
 }
 
 NotePainterWidget * NoteButton::getNotePainterWidget(){
+    if (painterWidget == NULL)
+    {
+        painterWidget = new NotePainterWidget();
+        if(!_fileName.isEmpty()){
+            painterWidget->setFileName(this->_fileName);
+        }
+    }
+
     return painterWidget;
 }
 

@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
 #if defined(Q_WS_MAC)
-    _loadDir = "/Users/sebastian/Desktop/notes/";
+    _loadDir = "/Users/jan/Desktop/notes/";
     // startI = 2 um . und .. auszuschlieﬂen
     _startI = 2;
     _dir = "/";
@@ -221,7 +221,9 @@ void MainWindow::loadNotes()
 }
 void MainWindow::on_sendButton_menu_clicked()
 {
-    _noteButtonList.at(_noteButtonGroup.checkedId())->getNotePainterWidget()->sendNote();
+    qDebug() << "1";
+    QString test = _noteButtonList.at(_noteButtonGroup.checkedId())->getNotePainterWidget()->getFilename();
+    qDebug() << test;
 
     on_menuCloseButton_clicked();
 }
