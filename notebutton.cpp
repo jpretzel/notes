@@ -22,7 +22,7 @@ NoteButton::NoteButton(QPixmap pixmap, QString fileName)
     setIconSize(QSize(111, 197));
     setIcon(pixmap);
     this->_fileName = fileName;
-    setStyleSheet("NoteButton:checked{border-style:outset;border-radius:21px;border-width:6px;border-color:#b9aead;}");
+    setStyleSheet("NoteButton:checked{background-image: url(:/backgrounds/images/highlightframe.png);}");
     setFlat(true);
     setCheckable(true);
 }
@@ -34,7 +34,7 @@ void NoteButton::loadStyleSheet(){
 void NoteButton::setHighlighted(bool hl){
     _highlight = hl;
     if(_highlight){
-        setStyleSheet("NoteButton{height:197px;width:111px;border-style:outset;border-radius:21px;border-width:6px;border-color:#b9aead;}");
+        setStyleSheet("");
     }else{
         setStyleSheet("");
     }
@@ -100,6 +100,7 @@ void NoteButton::doDisconnect(){
 void NoteButton::NotePainterWidgetClosed(){
     doDisconnect();
     qDebug() << "[close signal captured --> deleting ]";
+    _fileName = painterWidget->getFilename();
     emit(updateMe(this));
     painterWidget->deleteLater();
 }

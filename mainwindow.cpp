@@ -23,11 +23,11 @@
 #include <QScrollBar>
 
 #if !defined(Q_WS_MAC)
-#include <qmessageservice.h>
-#include <QContactManager>
-#include <QSystemInfo>
-#include <QContact>
-#include <QContactDetail>
+    #include <qmessageservice.h>
+    #include <QContactManager>
+    #include <QSystemInfo>
+    #include <QContact>
+    #include <QContactDetail>
 #endif
 
 #define NOTES_PER_PAGE 4
@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
 #if defined(Q_WS_MAC)
-    _loadDir = "/Users/jan/Desktop/notes/";
+    _loadDir = "/Users/sebastian/Desktop/notes/";
     // startI = 2 um . und .. auszuschlieﬂen
     _startI = 2;
     _dir = "/";
@@ -135,11 +135,14 @@ void MainWindow::addNoteToGrid(NoteButton *b){
         _noteButtonGroup.addButton(_noteButtonList.at(i), i);
     }
 
+    updateMinimumHeight();
+    update();
+}
+
+void MainWindow::updateMinimumHeight(){
+    qDebug() << "[UPDATING MINIMUM HEIGHT] " << _noteButtonList.size();
     ui->scrollAreaWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.length()/2));
     ui->noteWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.length()/2));
-
-
-    update();
 }
 
 void MainWindow::clearPage(){
@@ -280,6 +283,7 @@ void MainWindow::on_sendButton_menu_clicked(){
         qDebug() << "[EMAIL] Email sent successfully!";
     }else qDebug() << "[EMAIL] Unable to send Email!";
 #endif
+    on_menuCloseButton_clicked();
 }
 
 
@@ -337,5 +341,18 @@ void MainWindow::showExpanded()
 
 void MainWindow::on_helpButton_menu_clicked()
 {
-    loadNotes();
+}
+
+void MainWindow::updateGrid(){
+    updateMinimumHeight();
+}
+
+void MainWindow::on_delButton_menu_clicked()
+{
+    qDebug() << "[DELETE]" << _noteButtonGroup.checkedButton();
+    /* TODO delete files from storage */
+    _noteButtonList.removeAt(_noteButtonGroup.checkedId());
+    _noteButtonGroup.checkedButton()->deleteLater();
+    updateGrid();
+    on_menuCloseButton_clicked();
 }

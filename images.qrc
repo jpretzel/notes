@@ -5,6 +5,8 @@
         <file>images/miniMenuBg.png</file>
         <file>images/paperbg_slide.png</file>
         <file>images/woodBackground.png</file>
+        <file>images/softSlide.png</file>
+        <file>images/highlightframe.png</file>
     </qresource>
     <qresource prefix="/icon" lang="de">
         <file>images/addIcon.png</file>

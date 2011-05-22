@@ -59,6 +59,8 @@ private:
     void addNoteToGrid(NoteButton *b);
     void loadNotes();
     void sendNoteViaEmail();
+    void updateGrid();
+    void updateMinimumHeight();
 
 public slots:
     void paintEvent(QPaintEvent *);
@@ -72,6 +74,7 @@ private slots:
     void on_sendButton_menu_clicked();
     void on_helpButton_menu_clicked();
     void updateNoteButtonIcon(NoteButton *);
+    void on_delButton_menu_clicked();
 };
 
 #endif // MAINWINDOW_H
