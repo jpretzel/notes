@@ -168,7 +168,7 @@ QPushButton#addButton:pressed {
       <x>0</x>
       <y>0</y>
       <width>360</width>
-      <height>0</height>
+      <height>640</height>
      </rect>
     </property>
     <property name="minimumSize">
@@ -698,6 +698,11 @@ QPushButton:pressed {
 }</string>
     </property>
    </widget>
+   <zorder>addButton</zorder>
+   <zorder>menuButton</zorder>
+   <zorder>scrollArea</zorder>
+   <zorder>softSlide</zorder>
+   <zorder>menuWidget</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
