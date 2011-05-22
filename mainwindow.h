@@ -58,6 +58,7 @@ private:
 public slots:
     void paintEvent(QPaintEvent *);
     void updateNoteIcons();
+    void deleteNoteButton(NoteButton *);
 
 private slots:
     void on_quitButton_menu_clicked();

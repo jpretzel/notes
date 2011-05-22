@@ -94,11 +94,20 @@ QString NoteButton::getFileName()
 void NoteButton::doConnect(){
     qDebug() << "[connecting painterWidget]";
     connect(painterWidget, SIGNAL(closeSignal()), this, SLOT(NotePainterWidgetClosed()));
+    connect(painterWidget, SIGNAL(deleteSignal()), this, SLOT(NotePainterWidgetDeleteTriggered()));
 }
 
 void NoteButton::doDisconnect(){
     qDebug() << "[disconnecting painterWidget]";
     disconnect(painterWidget, SIGNAL(closeSignal()), this, SLOT(NotePainterWidgetClosed()));
+    disconnect(painterWidget, SIGNAL(deleteSignal()), this, SLOT(NotePainterWidgetDeleteTriggered()));
+}
+
+void NoteButton::NotePainterWidgetDeleteTriggered(){
+    painterWidget->close();
+    doDisconnect();
+    qDebug() << "[close signal from NotePainterWidget captured --> deleting ]";
+    emit(deleteMe(this));
 }
 
 void NoteButton::NotePainterWidgetClosed(){
