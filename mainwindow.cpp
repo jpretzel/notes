@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
 #if defined(Q_WS_MAC)
-    _loadDir = "/Users/jan/Desktop/notes/";
+    _loadDir = "/Users/sebastian/Desktop/notes/";
     // startI = 2 um . und .. auszuschlieﬂen
     _startI = 2;
     _dir = "/";
@@ -143,8 +143,14 @@ void MainWindow::addNoteToGrid(NoteButton *b){
 
 void MainWindow::updateMinimumHeight(){
     qDebug() << "[UPDATING MINIMUM HEIGHT] " << _noteButtonList.size();
-    ui->scrollAreaWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.length()/2));
-    ui->noteWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.length()/2));
+
+    if(_noteButtonList.length() % 2 == 0){
+        ui->scrollAreaWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.length()/2));
+        ui->noteWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.length()/2));
+    }else{
+        ui->scrollAreaWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.length()/2) + DYNAMIC_HEIGHT);
+        ui->noteWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.length()/2) + DYNAMIC_HEIGHT);
+    }
 }
 
 void MainWindow::clearPage(){
