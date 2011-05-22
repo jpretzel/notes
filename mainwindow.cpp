@@ -13,21 +13,21 @@
 #include <QtCore/QCoreApplication>
 #include <QDebug>
 #include <QDir>
-#include <QGestureEvent>
-#include <QSwipeGesture>
+#include <QMouseEvent>
 #include <QPair>
 #include <QPixmap>
 #include <QMessageBox>
 #include <QString>
 #include <QList>
 #include <QPainter>
+#include <QScrollBar>
 
 #if !defined(Q_WS_MAC)
-    #include <qmessageservice.h>
-    #include <QContactManager>
-    #include <QSystemInfo>
-    #include <QContact>
-    #include <QContactDetail>
+#include <qmessageservice.h>
+#include <QContactManager>
+#include <QSystemInfo>
+#include <QContact>
+#include <QContactDetail>
 #endif
 
 #define NOTES_PER_PAGE 4
@@ -35,7 +35,7 @@
 #define DYNAMIC_HEIGHT 289
 
 #if !defined(Q_WS_MAC)
-    QTM_USE_NAMESPACE
+QTM_USE_NAMESPACE
 #endif
 
 MainWindow::MainWindow(QWidget *parent)
@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
 #if defined(Q_WS_MAC)
-    _loadDir = "/Users/sebastian/Desktop/notes/";
+    _loadDir = "/Users/jan/Desktop/notes/";
     // startI = 2 um . und .. auszuschlieﬂen
     _startI = 2;
     _dir = "/";
@@ -72,10 +72,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->menuWidget->setVisible(false);
     ui->menuWidget->setEnabled(false);
 
-    // for swipeGesture
-    //setMouseTracking(true);
+    // to recieve QMouseEvents through the scrollArea and its viewport
+    ui->scrollArea->viewport()->setMouseTracking(true);
+
     loadNotes();
-    displayPage(0);
 }
 
 MainWindow::~MainWindow()
@@ -83,36 +83,27 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-bool MainWindow::event(QEvent *event)
-{
-    if (event->type() == QEvent::Gesture)
-        //return gestureEvent(static_cast<QGestureEvent*>(event));
-        qDebug("hello from QGestureEvent");
-    return QWidget::event(event);
-}
-
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    // only set _p1 when it was invalid before
-    // bug in mac osx because it catches
-    // a moveEvent when the mouse hovers the App the first time
-    if (_p1.x() == -1)
-        _p1 = event->pos();
-}
-
-void MainWindow::mouseReleaseEvent(QMouseEvent *event)
-{
-    _p2 = event->pos();
-
-    if ( _p1.x() != -1 && abs(_p1.x() - _p2.x()) > 70 )
+    // _p1 takes _p2's old value
+    if (_p2.y() != -1)
     {
-        if (_p1.x() > _p2.x())
-            displayPage(_currentPage + 1);
-        else
-            displayPage(_currentPage - 1);
+        _p1 = _p2;
     }
 
-    // ivalidate points
+    _p2 = event->pos();
+
+    // if both points got a value manipultae the position of the scrollBar
+    if(_p1.y() != -1)
+    {
+        int newPosition = ui->scrollArea->verticalScrollBar()->value() + (_p1.y() - _p2.y());
+        ui->scrollArea->verticalScrollBar()->setValue(newPosition);
+    }
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *)
+{
+    // ivalidate points for new scrolling
     _p1 = QPoint(-1, -1);
     _p2 = QPoint(-1, -1);
 }
@@ -151,10 +142,6 @@ void MainWindow::addNoteToGrid(NoteButton *b){
     update();
 }
 
-void MainWindow::displayPage(int page){
-
-}
-
 void MainWindow::clearPage(){
     // Delete
     /*while(_noteList.size() > 0){
@@ -170,6 +157,14 @@ void MainWindow::updateNoteButtonIcon(NoteButton * b){
 void MainWindow::on_menuButton_clicked()
 {
     //ui->addButton->setVisible(false);
+
+    if(_noteButtonGroup.checkedId() == -1)
+    {
+        ui->sendButton_menu->setDisabled(true);
+    } else {
+        ui->sendButton_menu->setEnabled(true);
+    }
+
     ui->menuWidget->setVisible(true);
     ui->menuWidget->setEnabled(true);
 }
@@ -229,7 +224,7 @@ void MainWindow::loadNotes()
 }
 
 void MainWindow::on_sendButton_menu_clicked(){
-    #if !defined(Q_WS_MAC)
+#if !defined(Q_WS_MAC)
     qDebug() << "[EMAIL]";
 
     /*QStringList availableManagers = QContactManager::availableManagers();

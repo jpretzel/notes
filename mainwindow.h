@@ -51,7 +51,6 @@ private:
     QString _dir;
     QPoint _p1;
     QPoint _p2;
-    void displayPage(int);
     void clearPage();
     QGridLayout * _gridLayout;
     NotePainterWidget *_notepainterwidget;
@@ -60,9 +59,6 @@ private:
     void addNoteToGrid(NoteButton *b);
     void loadNotes();
     void sendNoteViaEmail();
-
-protected:
-    bool event(QEvent *event);
 
 public slots:
     void paintEvent(QPaintEvent *);
