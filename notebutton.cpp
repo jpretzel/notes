@@ -1,5 +1,6 @@
 #include "notebutton.h"
 #include <QDebug>
+#include <QPainter>
 
 NoteButton::NoteButton()
 {
@@ -8,10 +9,11 @@ NoteButton::NoteButton()
     setFlat(true);
     setCheckable(true);
     painterWidget = new NotePainterWidget();
+    doConnect();
     #if defined(Q_WS_MAC)
-        painterWidget->show();
+            painterWidget->show();
     #else
-        painterWidget->showFullScreen();
+            painterWidget->showFullScreen();
     #endif
 }
 
@@ -39,7 +41,14 @@ void NoteButton::setHighlighted(bool hl){
 }
 
 void NoteButton::updateIcon(){
-    //this->setIcon();
+    if(painterWidget != NULL){
+        qDebug() << "[UPDATING ICON] " << this;
+        QPixmap bg(360, 640);
+        bg.fill(Qt::white);
+        QPainter painter(&bg);
+        painter.drawPixmap(QPoint(0, 0), painterWidget->getPageOne());
+        setIcon(bg);
+    }
 }
 
 bool NoteButton::isHighlighted(){
@@ -57,10 +66,10 @@ void NoteButton::mousePressEvent(QMouseEvent *){
 
 void NoteButton::openNote()
 {
-    qDebug() << "[creating new NotePainterWidget]";
     painterWidget = new NotePainterWidget();
-
     if(!_fileName.isEmpty()){
+        qDebug() << "[OPEN] openNote with filename:" << _fileName;
+        qDebug() << "[OPEN] parent:" << this;
         painterWidget->setFileName(this->_fileName);
         painterWidget->loadNotes();
     }
@@ -83,11 +92,15 @@ void NoteButton::doConnect(){
     connect(painterWidget, SIGNAL(closeSignal()), this, SLOT(NotePainterWidgetClosed()));
 }
 
-void NoteButton::NotePainterWidgetClosed(){
-    updateIcon();
+void NoteButton::doDisconnect(){
     qDebug() << "[disconnecting painterWidget]";
-    painterWidget->disconnect(painterWidget, SIGNAL(closeSignal()), this, SLOT(NotePainterWidgetClosed()));
+    disconnect(painterWidget, SIGNAL(closeSignal()), this, SLOT(NotePainterWidgetClosed()));
+}
+
+void NoteButton::NotePainterWidgetClosed(){
+    doDisconnect();
     qDebug() << "[close signal captured --> deleting ]";
+    emit(updateMe(this));
     painterWidget->deleteLater();
 }
 

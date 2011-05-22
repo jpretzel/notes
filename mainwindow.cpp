@@ -11,7 +11,6 @@
 #include "ui_mainwindow.h"
 
 #include <QtCore/QCoreApplication>
-
 #include <QDebug>
 #include <QDir>
 #include <QGestureEvent>
@@ -23,17 +22,21 @@
 #include <QList>
 #include <QPainter>
 
-#include <qmessageservice.h>
-#include <QContactManager>
-#include <QSystemInfo>
-#include <QContact>
-#include <QContactDetail>
+#if !defined(Q_WS_MAC)
+    #include <qmessageservice.h>
+    #include <QContactManager>
+    #include <QSystemInfo>
+    #include <QContact>
+    #include <QContactDetail>
+#endif
 
 #define NOTES_PER_PAGE 4
 #define NOTES_PER_ROW  2
 #define DYNAMIC_HEIGHT 289
 
-QTM_USE_NAMESPACE
+#if !defined(Q_WS_MAC)
+    QTM_USE_NAMESPACE
+#endif
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -41,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
 #if defined(Q_WS_MAC)
-    _loadDir = "/Users/jan/Desktop/notes/";
+    _loadDir = "/Users/sebastian/Desktop/notes/";
     // startI = 2 um . und .. auszuschlieﬂen
     _startI = 2;
     _dir = "/";
@@ -82,9 +85,6 @@ MainWindow::~MainWindow()
 
 bool MainWindow::event(QEvent *event)
 {
-    /*if (event->type() == QEvent::KeyPress){
-        displayPage(_currentPage + 1);
-    }*/
     if (event->type() == QEvent::Gesture)
         //return gestureEvent(static_cast<QGestureEvent*>(event));
         qDebug("hello from QGestureEvent");
@@ -130,21 +130,25 @@ void MainWindow::addNoteToGrid(NoteButton *b){
 
     _noteButtonList.append(b);
 
-    int row, column, items;
+    qDebug() << "[connecting NoteButton]" << b;
+    connect(b, SIGNAL(updateMe(NoteButton *)), this, SLOT(updateNoteButtonIcon(NoteButton *)));
 
-    // ungerade anzahl, platz in reihe noch frei
-    if(_gridLayout->children().count() % 2){
-        row = _gridLayout->columnCount();
-        column = 1;
-    }else{
-        row = _gridLayout->columnCount() + 1;
-        column = 0;
+    int row     = 0;
+    int column  = 0;
+    for(int i = 0; i < _noteButtonList.length(); i++){
+        if(column > 1){
+            row++;
+            column = 0;
+        }
+        _gridLayout->addWidget(_noteButtonList.at(i), row, column++, Qt::AlignTop);
+        _noteButtonGroup.addButton(_noteButtonList.at(i), i);
     }
-
-    _gridLayout->addWidget(b, row, column, Qt::AlignTop);
 
     ui->scrollAreaWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.length()/2));
     ui->noteWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.length()/2));
+
+
+    update();
 }
 
 void MainWindow::displayPage(int page){
@@ -156,6 +160,11 @@ void MainWindow::clearPage(){
     /*while(_noteList.size() > 0){
         delete(_noteList.takeFirst());
     }*/
+}
+
+void MainWindow::updateNoteButtonIcon(NoteButton * b){
+    qDebug() << "[SLOT: updating NoteButton]" << b;
+    b->updateIcon();
 }
 
 void MainWindow::on_menuButton_clicked()
@@ -188,6 +197,7 @@ void MainWindow::updateNoteIcons(){
 
 void MainWindow::loadNotes()
 {
+    qDebug() << "[INFO] loading notes";
     if (!QDir(_loadDir).exists())
     {
         QDir().mkdir(_loadDir);
@@ -214,32 +224,12 @@ void MainWindow::loadNotes()
         } else {
             pixmap.fill(Qt::transparent);
         }
-
-        // auslagern
-        //NoteButton * nb = new NoteButton(pixmap, dirEntrys.at(i));
-        //addNoteToGrid(nb);
-        //_noteData.append(new QPair<QPixmap, QString>(pixmap, dirEntrys.at(i)));
-        _noteButtonList.append(new NoteButton(pixmap, dirEntrys.at(i)));
+        addNoteToGrid(new NoteButton(pixmap, dirEntrys.at(i)));
     }
-
-    int row     = 0;
-    int column  = 0;
-    for(int i = 0; i < _noteButtonList.length(); i++){
-        if(column > 1){
-            row++;
-            column = 0;
-        }
-        _gridLayout->addWidget(_noteButtonList.at(i), row, column++, Qt::AlignTop);
-        _noteButtonGroup.addButton(_noteButtonList.at(i), i);
-    }
-
-    ui->scrollAreaWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.length()/2));
-    ui->noteWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.length()/2));
-
-    update();
 }
 
 void MainWindow::on_sendButton_menu_clicked(){
+    #if !defined(Q_WS_MAC)
     qDebug() << "[EMAIL]";
 
     /*QStringList availableManagers = QContactManager::availableManagers();
@@ -294,7 +284,7 @@ void MainWindow::on_sendButton_menu_clicked(){
     if(service->send(msg)){
         qDebug() << "[EMAIL] Email sent successfully!";
     }else qDebug() << "[EMAIL] Unable to send Email!";
-
+#endif
 }
 
 

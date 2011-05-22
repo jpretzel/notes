@@ -23,10 +23,14 @@ private:
     QString _fileName;
     NotePainterWidget *painterWidget;
     void doConnect();
+    void doDisconnect();
     void openNote();
 
 public slots:
     void NotePainterWidgetClosed();
+
+signals:
+    void updateMe(NoteButton *);
 
 protected:
     void mousePressEvent( QMouseEvent * );

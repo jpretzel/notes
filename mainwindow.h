@@ -75,6 +75,7 @@ private slots:
     void on_menuCloseButton_clicked();
     void on_sendButton_menu_clicked();
     void on_helpButton_menu_clicked();
+    void updateNoteButtonIcon(NoteButton *);
 };
 
 #endif // MAINWINDOW_H
