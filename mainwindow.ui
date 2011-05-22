@@ -168,7 +168,7 @@ QPushButton#addButton:pressed {
       <x>0</x>
       <y>0</y>
       <width>360</width>
-      <height>640</height>
+      <height>0</height>
      </rect>
     </property>
     <property name="minimumSize">
@@ -518,7 +518,7 @@ QPushButton:pressed {
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>90</y>
+      <y>91</y>
       <width>360</width>
       <height>550</height>
      </rect>
@@ -567,7 +567,7 @@ QPushButton:pressed {
      <number>0</number>
     </property>
     <property name="verticalScrollBarPolicy">
-     <enum>Qt::ScrollBarAsNeeded</enum>
+     <enum>Qt::ScrollBarAlwaysOff</enum>
     </property>
     <property name="horizontalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -678,10 +678,26 @@ QPushButton:pressed {
      </widget>
     </widget>
    </widget>
-   <zorder>addButton</zorder>
-   <zorder>menuButton</zorder>
-   <zorder>scrollArea</zorder>
-   <zorder>menuWidget</zorder>
+   <widget class="QWidget" name="softSlide" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>87</y>
+      <width>360</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QWidget#softSlide {
+	background-image: url(:/backgrounds/images/softSlide.png);
+}</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

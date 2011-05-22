@@ -23,11 +23,11 @@
 #include <QScrollBar>
 
 #if !defined(Q_WS_MAC)
-#include <qmessageservice.h>
-#include <QContactManager>
-#include <QSystemInfo>
-#include <QContact>
-#include <QContactDetail>
+    #include <qmessageservice.h>
+    #include <QContactManager>
+    #include <QSystemInfo>
+    #include <QContact>
+    #include <QContactDetail>
 #endif
 
 #define NOTES_PER_PAGE 4
@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
 #if defined(Q_WS_MAC)
-    _loadDir = "/Users/jan/Desktop/notes/";
+    _loadDir = "/Users/sebastian/Desktop/notes/";
     // startI = 2 um . und .. auszuschlieﬂen
     _startI = 2;
     _dir = "/";
@@ -337,5 +337,4 @@ void MainWindow::showExpanded()
 
 void MainWindow::on_helpButton_menu_clicked()
 {
-    loadNotes();
 }
