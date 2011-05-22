@@ -114,7 +114,7 @@ void MainWindow::addNoteToGrid(NoteButton *b){
 
     int row     = 0;
     int column  = 0;
-    for(int i = 0; i < _noteButtonList.length(); i++){
+    for(int i = 0; i < _noteButtonList.size(); i++){
         if(column > 1){
             row++;
             column = 0;
@@ -130,12 +130,12 @@ void MainWindow::addNoteToGrid(NoteButton *b){
 void MainWindow::updateMinimumHeight(){
     qDebug() << "[UPDATING MINIMUM HEIGHT] " << _noteButtonList.size();
 
-    if(_noteButtonList.length() % 2 == 0){
-        ui->scrollAreaWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.length()/2));
-        ui->noteWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.length()/2));
+    if(_noteButtonList.size() % 2 == 0){
+        ui->scrollAreaWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.size()/2));
+        ui->noteWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.size()/2));
     }else{
-        ui->scrollAreaWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.length()/2) + DYNAMIC_HEIGHT);
-        ui->noteWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.length()/2) + DYNAMIC_HEIGHT);
+        ui->scrollAreaWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.size()/2) + DYNAMIC_HEIGHT);
+        ui->noteWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.size()/2) + DYNAMIC_HEIGHT);
     }
 }
 
@@ -221,9 +221,7 @@ void MainWindow::loadNotes()
 }
 void MainWindow::on_sendButton_menu_clicked()
 {
-    qDebug() << "1";
-    QString test = _noteButtonList.at(_noteButtonGroup.checkedId())->getNotePainterWidget()->getFilename();
-    qDebug() << test;
+    _noteButtonList.at(_noteButtonGroup.checkedId())->getNotePainterWidget()->sendNote();
 
     on_menuCloseButton_clicked();
 }
@@ -253,7 +251,7 @@ void MainWindow::updateGrid(){
     // rebuild
      int row     = 0;
      int column  = 0;
-     for(int i = 0; i < _noteButtonList.length(); i++){
+     for(int i = 0; i < _noteButtonList.size(); i++){
          if(column > 1){
              row++;
              column = 0;
@@ -267,7 +265,15 @@ void MainWindow::updateGrid(){
 void MainWindow::on_delButton_menu_clicked()
 {
     qDebug() << "[DELETE]" << _noteButtonGroup.checkedButton();
-    /* TODO delete files from storage */
+
+    QString deleteFolder = _loadDir + _noteButtonList.at(_noteButtonGroup.checkedId())->getFileName();
+    QStringList deleteFiles = QDir(deleteFolder).entryList();
+    for(int i = _startI; i < deleteFiles.size(); i++)
+    {
+        QDir().remove(deleteFolder + _dir + deleteFiles.at(i));
+    }
+    QDir().rmdir(deleteFolder);
+
     _noteButtonList.removeAt(_noteButtonGroup.checkedId());
     _noteButtonGroup.checkedButton()->deleteLater();
     updateGrid();
