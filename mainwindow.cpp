@@ -274,8 +274,8 @@ void MainWindow::deleteNoteButton(NoteButton * b){
     QDir().rmdir(deleteFolder);
     _noteButtonList.removeOne(b);
     _noteButtonGroup.removeButton(b);
-    b->deleteLater();
     updateGrid();
+    b->deleteLater();
 }
 
 void MainWindow::on_delButton_menu_clicked()
@@ -294,4 +294,9 @@ void MainWindow::on_delButton_menu_clicked()
     _noteButtonGroup.checkedButton()->deleteLater();
     updateGrid();
     on_menuCloseButton_clicked();
+}
+
+void MainWindow::on_addButton_menu_clicked()
+{
+    on_addButton_clicked();
 }
