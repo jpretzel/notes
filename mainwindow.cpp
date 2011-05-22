@@ -19,6 +19,8 @@
 #include <QMessageBox>
 #include <QString>
 #include <QList>
+
+
 #include <QPainter>
 #include <QScrollBar>
 
@@ -74,16 +76,14 @@ MainWindow::~MainWindow()
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
     // _p1 takes _p2's old value
-    if (_p2.y() != -1)
-    {
+    if (_p2.y() != -1){
         _p1 = _p2;
     }
 
     _p2 = event->pos();
 
     // if both points got a value manipultae the position of the scrollBar
-    if(_p1.y() != -1)
-    {
+    if(_p1.y() != -1){
         int newPosition = ui->scrollArea->verticalScrollBar()->value() + (_p1.y() - _p2.y());
         ui->scrollArea->verticalScrollBar()->setValue(newPosition);
     }
@@ -242,6 +242,25 @@ void MainWindow::on_helpButton_menu_clicked()
 }
 
 void MainWindow::updateGrid(){
+
+    // Clearing the gridLayout
+    QLayoutItem *child;
+     while ((child = _gridLayout->takeAt(0)) != 0) {
+         _gridLayout->removeItem(_gridLayout->takeAt(0));
+         delete child;
+     }
+
+    // rebuild
+     int row     = 0;
+     int column  = 0;
+     for(int i = 0; i < _noteButtonList.length(); i++){
+         if(column > 1){
+             row++;
+             column = 0;
+         }
+         _gridLayout->addWidget(_noteButtonList.at(i), row, column++, Qt::AlignTop);
+         _noteButtonGroup.addButton(_noteButtonList.at(i), i);
+     }
     updateMinimumHeight();
 }
 
