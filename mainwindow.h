@@ -24,16 +24,9 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    enum ScreenOrientation {
-        ScreenOrientationLockPortrait,
-        ScreenOrientationLockLandscape,
-        ScreenOrientationAuto
-    };
-
     explicit MainWindow(QWidget *parent = 0);
     virtual ~MainWindow();
 
-    void setOrientation(ScreenOrientation orientation);
     void showExpanded();
 
     void mouseMoveEvent(QMouseEvent *);

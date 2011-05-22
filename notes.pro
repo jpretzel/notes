@@ -27,14 +27,17 @@ symbian:TARGET.CAPABILITY = NetworkServices \
 SOURCES += main.cpp \
             mainwindow.cpp \
             notebutton.cpp \
-            notepainterwidget.cpp
+            notepainterwidget.cpp \
+            sendnotedialog.cpp
 
 HEADERS += mainwindow.h \
             notebutton.h \
-            notepainterwidget.h
+            notepainterwidget.h \
+            sendnotedialog.cpp
 
 FORMS += mainwindow.ui \
-            notepainterwidget.ui
+            notepainterwidget.ui \
+            sendnotedialog.ui
 
 # Please do not modify the following two lines. Required for deployment.
 include(deployment.pri)
