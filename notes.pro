@@ -24,6 +24,8 @@ symbian:TARGET.CAPABILITY = NetworkServices \
         ReadDeviceData \
         WriteDeviceData
 
+symbian:LIBS += -lcone -leikcore -lavkon
+
 SOURCES += main.cpp \
             mainwindow.cpp \
             notebutton.cpp \
@@ -33,7 +35,7 @@ SOURCES += main.cpp \
 HEADERS += mainwindow.h \
             notebutton.h \
             notepainterwidget.h \
-            sendnotedialog.cpp
+            sendnotedialog.h
 
 FORMS += mainwindow.ui \
             notepainterwidget.ui \

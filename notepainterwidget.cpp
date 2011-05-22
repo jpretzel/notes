@@ -8,6 +8,16 @@
 #include <QDir>
 #include <QDateTime>
 
+#include "sendnotedialog.h"
+
+#if !defined(Q_WS_MAC)
+    #include <qmessageservice.h>
+    #include <QContactManager>
+    #include <QSystemInfo>
+    #include <QContact>
+    #include <QContactDetail>
+#endif
+
 #define DOGEARZONE_X 300
 #define DOGEARZONE_Y 580
 #define UPPER_DOGEARZONE_Y 60
@@ -15,11 +25,33 @@
 #define PEN_WIDTH 6
 #define NIRVANA -PEN_WIDTH / 2
 
+#if !defined(Q_WS_MAC)
+QTM_USE_NAMESPACE
+#endif
+
 NotePainterWidget::NotePainterWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::NotePainterWidget)
 {
     ui->setupUi(this);
+
+#if defined(Q_WS_MAC)
+    _loadDir = "/Users/jan/Desktop/notes/";
+    _dir = "/";
+
+    // handle the "." and ".." folders
+    _startI = 2;
+#else
+    // check for flash media
+    if (QDir("e:\\").exists()) {
+        _loadDir = "e:\\Development\\notes\\";
+    } else {
+        _loadDir = "c:\\Development\\notes\\";
+    }
+    _dir = "\\";
+    _startI = 0;
+#endif
+
     _currentPage            = 0;
     _drawMode               = true;
     _dogEarClicked          = false;
@@ -195,30 +227,11 @@ void NotePainterWidget::loadNotes()
     // do nothing when the note is not realy defined
     if (_fileName != "")
     {
-        QString loadDir;
-        QString dir;
-        int startI;
-#if defined(Q_WS_MAC)
-        loadDir = "/Users/sebastian/Desktop/notes/" + _fileName + "/";
-        dir = "/";
-
-        // handle the "." and ".." folders
-        startI = 2;
-#else
-        // check for flash media
-        if (QDir("e:\\").exists()) {
-            loadDir = "e:\\Development\\notes\\" + _fileName + "\\";
-        } else {
-            loadDir = "c:\\Development\\notes\\" + _fileName + "\\";
-        }
-        dir = "\\";
-        startI = 0;
-#endif
-
-        QStringList notePages = QDir(loadDir).entryList();
-        if (notePages.size() > startI)
+        QString loadDir = _loadDir + _fileName + _dir;
+        QStringList notePages = QDir(_loadDir).entryList();
+        if (notePages.size() > _startI)
         {
-            for (int i = startI; i < notePages.size(); i++)
+            for (int i = _startI; i < notePages.size(); i++)
             {
                 // load the image as QPixmap and store it to the right page
                 QPixmap pixmap(loadDir + notePages.at(i));
@@ -250,42 +263,27 @@ void NotePainterWidget::saveImages()
     if (_modified[0] || _modified[1] || _modified[2] || _modified[3]
             || _erase[0] || _erase[1] || _erase[2] || _erase[3])
     {
-        QString saveDir;
-        QString dir;
-#if defined(Q_WS_MAC)
-        saveDir = "/Users/sebastian/Desktop/notes/";
-        dir = "/";
-#else
-        // check for flash media
-        if (QDir("e:\\").exists()) {
-            saveDir = "e:\\Development\\notes\\";
-        } else {
-            saveDir = "c:\\Development\\notes\\";
-        }
-        dir = "\\";
-#endif
-
-        if (!QDir(saveDir).exists())
+        if (!QDir(_loadDir).exists())
         {
-            QDir().mkdir(saveDir);
+            QDir().mkdir(_loadDir);
         }
 
         if (_fileName == "")
         {
-            _fileName = QDateTime::currentDateTime().toString("hhmmssddmmyy");
+            _fileName = QDateTime::currentDateTime().toString("yymmddhhmmss");
         }
 
-        // create subdirectory
-        saveDir += _fileName + dir;
+        // create sub_directory
+        QString loadDir = _loadDir + _fileName + _dir;
 
-        // if needed? mkdir() returns false if not successfully
-        if (!QDir(saveDir).exists())
+        // if needed? mk_dir() returns false if not successfully
+        if (!QDir(loadDir).exists())
         {
-            QDir().mkdir(saveDir);
+            QDir().mkdir(loadDir);
         }
 
         for(int page = 0; page <= MAX_PAGES; page++){
-            QFile file(saveDir + _fileName + "_" + QString::number(page) + ".png");
+            QFile file(loadDir + _fileName + "_" + QString::number(page) + ".png");
 
             if (_modified[page])
             {
@@ -307,7 +305,7 @@ void NotePainterWidget::saveImages()
         }
 
         // delete folder if note is empty
-        QStringList checkForDel = QDir(saveDir).entryList();
+        QStringList checkForDel = QDir(loadDir).entryList();
 #if defined(Q_WS_MAC)
         // handle the folders "." and ".."
         checkForDel.removeFirst();
@@ -316,7 +314,7 @@ void NotePainterWidget::saveImages()
 
         if (checkForDel.isEmpty())
         {
-            QDir().rmdir(saveDir);
+            QDir().rmdir(loadDir);
         }
     }
 }
@@ -355,6 +353,56 @@ void NotePainterWidget::closeEvent(QCloseEvent *)
     saveImages();
     emit(closeSignal());
     createIcon();
+}
+
+void NotePainterWidget::sendNote()
+{
+    QString emailAdress = SendNoteDialog::getEmailAdress(this);
+#if !defined(Q_WS_MAC)
+    qDebug() << "[EMAIL]";
+
+    /*QStringList availableManagers = QContactManager::availableManagers();
+
+        for(int managerIdx = 0; managerIdx < availableManagers.count(); managerIdx++) {
+            QContactManager * manager = new QContactManager(availableManagers.at(managerIdx));
+
+            if(manager) {
+                QList<QContact> contacts = manager->contacts();
+                for(int i = 0; i < contacts.count(); i++){
+                    qDebug() << contacts.at(i);
+                }
+                delete manager;
+            }
+        }*/
+
+    QMessageService * service = new QMessageService;
+    QMessageAddress sendTo(QMessageAddress::Email, emailAdress);
+
+    QMessage msg;
+    msg.setType(QMessage::Email);
+
+    // Setting the stored EmailAdress as sender.
+    msg.setParentAccountId(QMessageAccount::defaultAccount(QMessage::Email));
+
+    msg.setTo(sendTo);
+    msg.setSubject("notes for you :)");
+
+    QStringList notePages = QDir(_loadDir + _fileName).entryList();
+    QStringList absPath;
+
+    for(int i = 0; i < notePages.size(); i++)
+    {
+        absPath.append(_loadDir + _fileName + _dir + notePages.at(i));
+    }
+
+    msg.appendAttachments(absPath);
+
+    if(service->send(msg))
+    {
+        qDebug() << "[EMAIL] Email sent successfully!";
+    } else qDebug() << "[EMAIL] Unable to send Email!";
+#endif
+
 }
 
 /* =========================================================================
@@ -516,4 +564,10 @@ void NotePainterWidget::on_rubberButton_clicked()
     ui->rubberButton->setDisabled(true);
     ui->penButton->setEnabled(true);
     ui->penButton->setChecked(false);
+}
+
+void NotePainterWidget::on_sendButton_clicked()
+{
+    saveImages();
+    sendNote();
 }

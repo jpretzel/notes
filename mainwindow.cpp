@@ -22,23 +22,9 @@
 #include <QPainter>
 #include <QScrollBar>
 
-#include "sendnotedialog.h"
-
-#if !defined(Q_WS_MAC)
-    #include <qmessageservice.h>
-    #include <QContactManager>
-    #include <QSystemInfo>
-    #include <QContact>
-    #include <QContactDetail>
-#endif
-
 #define NOTES_PER_PAGE 4
 #define NOTES_PER_ROW  2
 #define DYNAMIC_HEIGHT 289
-
-#if !defined(Q_WS_MAC)
-QTM_USE_NAMESPACE
-#endif
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -227,64 +213,10 @@ void MainWindow::loadNotes()
         addNoteToGrid(new NoteButton(pixmap, dirEntrys.at(i)));
     }
 }
-void MainWindow::on_sendButton_menu_clicked(){
-    QString emailAdress = SendNoteDialog::getEmailAdress(this);
-#if !defined(Q_WS_MAC)
-    qDebug() << "[EMAIL]";
+void MainWindow::on_sendButton_menu_clicked()
+{
+    _noteButtonList.at(_noteButtonGroup.checkedId())->getNotePainterWidget()->sendNote();
 
-    /*QStringList availableManagers = QContactManager::availableManagers();
-
-        for(int managerIdx = 0; managerIdx < availableManagers.count(); managerIdx++) {
-            QContactManager * manager = new QContactManager(availableManagers.at(managerIdx));
-
-            if(manager) {
-                QList<QContact> contacts = manager->contacts();
-                for(int i = 0; i < contacts.count(); i++){
-                    qDebug() << contacts.at(i);
-                }
-                delete manager;
-            }
-        }*/
-
-
-    QMessageManager * manager = new QMessageManager;
-    QMessageService * service = new QMessageService;
-    QMessageAccount * account = new QMessageAccount;
-    QMessageAddress sendTo(QMessageAddress::Email, emailAdress);
-
-    QMessage msg;
-    msg.setType(QMessage::Email);
-
-    // Setting the stored EmailAdress as sender.
-    msg.setParentAccountId(QMessageAccount::defaultAccount(QMessage::Email));
-
-    foreach(const QMessageAccountId &id, manager->queryAccounts())
-    {
-        QMessageAccount account(id);
-        qDebug() << account.name() << ": " << account.messageTypes();
-        QMessageBox::about(this, account.name(), account.name());
-
-    }
-    msg.setTo(sendTo);
-    msg.setSubject("notes for you :)");
-
-
-    QString noteName = _noteButtonList.at(_noteButtonGroup.checkedId())->getFileName();
-    QStringList notePages = QDir(_loadDir + noteName).entryList();
-    QStringList absPath;
-
-    for(int i = 0; i < notePages.size(); i++)
-    {
-        absPath.append(_loadDir + noteName + _dir + notePages.at(i));
-    }
-
-
-    msg.appendAttachments(absPath);
-
-    if(service->send(msg)){
-        qDebug() << "[EMAIL] Email sent successfully!";
-    }else qDebug() << "[EMAIL] Unable to send Email!";
-#endif
     on_menuCloseButton_clicked();
 }
 

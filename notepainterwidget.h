@@ -30,6 +30,7 @@ public:
     void setFileName(QString newFileName);
     void loadNotes();
     void setIcon(QPixmap pixmap);
+    void sendNote();
     QIcon getIcon();
     QPixmap getPageOne();
     QString getFilename();
@@ -56,6 +57,9 @@ private:
     bool _erase[4];
     bool _rubber;
     QString _fileName;
+    QString _loadDir;
+    QString _dir;
+    int _startI;
 
     // Drawing data:
     QPen _pen;
@@ -84,6 +88,7 @@ private slots:
     void on_penButton_clicked();
     void on_rubberButton_clicked();
     void on_closeButton_clicked();
+    void on_sendButton_clicked();
 
 signals:
     void closeSignal();
