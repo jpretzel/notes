@@ -36,7 +36,7 @@ NotePainterWidget::NotePainterWidget(QWidget *parent) :
     ui->setupUi(this);
 
 #if defined(Q_WS_MAC)
-    _loadDir = "/Users/jan/Desktop/notes/";
+    _loadDir = "/Users/sebastian/Desktop/notes/";
     _dir = "/";
 
     // handle the "." and ".." folders
@@ -571,4 +571,9 @@ void NotePainterWidget::on_sendButton_clicked()
 {
     saveImages();
     sendNote();
+}
+
+void NotePainterWidget::on_delButton_clicked()
+{
+    emit(deleteSignal());
 }

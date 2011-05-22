@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
 #if defined(Q_WS_MAC)
-    _loadDir = "/Users/jan/Desktop/notes/";
+    _loadDir = "/Users/sebastian/Desktop/notes/";
     // startI = 2 um . und .. auszuschlieﬂen
     _startI = 2;
     _dir = "/";
@@ -111,6 +111,7 @@ void MainWindow::addNoteToGrid(NoteButton *b){
 
     qDebug() << "[connecting NoteButton]" << b;
     connect(b, SIGNAL(updateMe(NoteButton *)), this, SLOT(updateNoteButtonIcon(NoteButton *)));
+    connect(b, SIGNAL(deleteMe(NoteButton*)), this, SLOT(deleteNoteButton(NoteButton*)));
 
     int row     = 0;
     int column  = 0;
@@ -260,6 +261,21 @@ void MainWindow::updateGrid(){
          _noteButtonGroup.addButton(_noteButtonList.at(i), i);
      }
     updateMinimumHeight();
+}
+
+void MainWindow::deleteNoteButton(NoteButton * b){
+    qDebug() << "[DELETE SIGNAL]" << b;
+    QString deleteFolder = _loadDir + b->getFileName();
+    QStringList deleteFiles = QDir(deleteFolder).entryList();
+    for(int i = _startI; i < deleteFiles.size(); i++)
+    {
+        QDir().remove(deleteFolder + _dir + deleteFiles.at(i));
+    }
+    QDir().rmdir(deleteFolder);
+    _noteButtonList.removeOne(b);
+    _noteButtonGroup.removeButton(b);
+    b->deleteLater();
+    updateGrid();
 }
 
 void MainWindow::on_delButton_menu_clicked()

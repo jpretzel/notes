@@ -30,9 +30,11 @@ private:
 
 public slots:
     void NotePainterWidgetClosed();
+    void NotePainterWidgetDeleteTriggered();
 
 signals:
     void updateMe(NoteButton *);
+    void deleteMe(NoteButton *);
 
 protected:
     void mousePressEvent(QMouseEvent *);
