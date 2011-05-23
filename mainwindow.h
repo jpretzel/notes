@@ -12,6 +12,7 @@
 
 #include <QtGui/QMainWindow>
 #include "notebutton.h"
+#include "helpwidget.h"
 #include <QGridLayout>
 #include <QButtonGroup>
 

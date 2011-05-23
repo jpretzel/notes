@@ -24,4 +24,8 @@
         <file>images/closeMenu.png</file>
         <file>images/openMenu.png</file>
     </qresource>
+    <qresource prefix="/help">
+        <file>images/HelpMainWindow.png</file>
+        <file>images/HelpNotePainterWidget.png</file>
+    </qresource>
 </RCC>

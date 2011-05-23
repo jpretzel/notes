@@ -253,6 +253,8 @@ void MainWindow::showExpanded()
 
 void MainWindow::on_helpButton_menu_clicked()
 {
+    HelpWidget * hw = new HelpWidget();
+    hw->show();
 }
 
 void MainWindow::updateGrid(){

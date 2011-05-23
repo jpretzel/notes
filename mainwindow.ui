@@ -27,8 +27,8 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="styleSheet">
-    <string notr="true">QWidget#centralWidget {
-	background-image: 		url(:/backgrounds/images/woodBackground.png);
+    <string notr="true">#centralWidget{
+	background-image: url(:/backgrounds/images/woodBackground.png);
 }</string>
    </property>
    <widget class="QPushButton" name="addButton">
