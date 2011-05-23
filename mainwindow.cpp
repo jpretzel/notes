@@ -288,8 +288,18 @@ void MainWindow::deleteNoteButton(NoteButton * b)
     // after all files are deleted the folder can be removed
     QDir().rmdir(deleteFolder);
 
+    for(int i = 0; i < _noteButtonList.size(); i++)
+    {
+        _noteButtonGroup.removeButton(_noteButtonList.at(i));
+    }
+
     _noteButtonList.removeOne(b);
-    _noteButtonGroup.removeButton(b);
+
+    for(int i = 0; i < _noteButtonList.size(); i++)
+    {
+        _noteButtonGroup.addButton(_noteButtonList.at(i), i);
+    }
+
     updateGrid();
     b->deleteLater();
 }
