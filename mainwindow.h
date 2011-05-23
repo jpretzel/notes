@@ -57,10 +57,8 @@ private:
     void updateMinimumHeight();
 
 public slots:
-    void paintEvent(QPaintEvent *);
     void updateNoteIcons();
     void deleteNoteButton(NoteButton *);
-    void resetLastPresspoint();
 
 private slots:
     void on_quitButton_menu_clicked();
@@ -72,6 +70,7 @@ private slots:
     void updateNoteButtonIcon(NoteButton *);
     void on_delButton_menu_clicked();
     void on_addButton_menu_clicked();
+    void resetLastPresspoint();
 };
 
 #endif // MAINWINDOW_H

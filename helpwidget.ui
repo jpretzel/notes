@@ -103,12 +103,9 @@ QPushButton:pressed {
 	background-image: url(:/help/images/HelpNotePainterWidget.png);
 }</string>
     </property>
-    <zorder>cancelButton_2</zorder>
    </widget>
-   <zorder>secondWidget</zorder>
-   <zorder>secondWidget</zorder>
   </widget>
-  <widget class="QPushButton" name="cancelButton_2">
+  <widget class="QPushButton" name="nextButton">
    <property name="geometry">
     <rect>
      <x>230</x>
@@ -149,7 +146,7 @@ QPushButton:pressed {
   </widget>
   <zorder>widget</zorder>
   <zorder>cancelButton</zorder>
-  <zorder>cancelButton_2</zorder>
+  <zorder>nextButton</zorder>
  </widget>
  <resources>
   <include location="images.qrc"/>

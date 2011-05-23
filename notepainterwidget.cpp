@@ -7,15 +7,16 @@
 #include <QMouseEvent>
 #include <QDir>
 #include <QDateTime>
+#include <QMessageBox>
 
 #include "sendnotedialog.h"
 
 #if !defined(Q_WS_MAC)
-    #include <qmessageservice.h>
-    #include <QContactManager>
-    #include <QSystemInfo>
-    #include <QContact>
-    #include <QContactDetail>
+#include <qmessageservice.h>
+#include <QContactManager>
+#include <QSystemInfo>
+#include <QContact>
+#include <QContactDetail>
 #endif
 
 #define DOGEARZONE_X 300
@@ -359,10 +360,20 @@ void NotePainterWidget::closeEvent(QCloseEvent *)
 void NotePainterWidget::sendNote()
 {
     QString emailAdress = SendNoteDialog::getEmailAdress(this);
-#if !defined(Q_WS_MAC)
-    qDebug() << "[EMAIL]";
 
-    /*QStringList availableManagers = QContactManager::availableManagers();
+    // OK Button was pressed and input field was not empty
+    if (!emailAdress.isNull() && emailAdress != "")
+    {
+        QRegExp rx("^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$", Qt::CaseInsensitive);
+        if (!rx.exactMatch(emailAdress))
+        {
+            QMessageBox::warning(this, "Email Adresse", emailAdress
+                                 + QString::fromUtf8(" scheint keine gültige Email Adresse zu sein."));
+        } else {
+#if !defined(Q_WS_MAC)
+            qDebug() << "[EMAIL]";
+
+            /*QStringList availableManagers = QContactManager::availableManagers();
 
         for(int managerIdx = 0; managerIdx < availableManagers.count(); managerIdx++) {
             QContactManager * manager = new QContactManager(availableManagers.at(managerIdx));
@@ -376,37 +387,45 @@ void NotePainterWidget::sendNote()
             }
         }*/
 
-    QMessageService * service = new QMessageService;
-    QMessageAddress sendTo(QMessageAddress::Email, emailAdress);
+            QMessageService * service = new QMessageService;
+            QMessageAddress sendTo(QMessageAddress::Email, emailAdress);
 
-    QMessage msg;
-    msg.setType(QMessage::Email);
-    msg.setBody("Hi there!\nPlease see the attachements. \n\n---\n(notes) made by Jan Pretzel & Sebastian Ullrich")
+            QMessage msg;
+            msg.setType(QMessage::Email);
+            msg.setBody("Hi there!\nPlease have a look at the attachements.\n\n---\n(notes) made by Jan Pretzel & Sebastian Ullrich");
 
-    // Setting the stored EmailAdress as sender.
-    msg.setParentAccountId(QMessageAccount::defaultAccount(QMessage::Email));
+            // Setting the stored EmailAdress as sender.
+            msg.setParentAccountId(QMessageAccount::defaultAccount(QMessage::Email));
 
-    msg.setTo(sendTo);
-    msg.setSubject("notes for you :)");
+            msg.setTo(sendTo);
+            msg.setSubject("notes for you :)");
 
-    QStringList notePages = QDir(_loadDir + _fileName).entryList();
-    QStringList absPath;
+            QStringList notePages = QDir(_loadDir + _fileName).entryList();
+            QStringList absPath;
 
-    for(int i = 0; i < notePages.size(); i++)
-    {
-        absPath.append(_loadDir + _fileName + _dir + notePages.at(i));
-    }
+            for(int i = 0; i < notePages.size(); i++)
+            {
+                absPath.append(_loadDir + _fileName + _dir + notePages.at(i));
+            }
 
-    msg.
+            msg.appendAttachments(absPath);
 
-    msg.appendAttachments(absPath);
-
-    if(service->send(msg))
-    {
-        qDebug() << "[EMAIL] Email sent successfully!";
-    } else qDebug() << "[EMAIL] Unable to send Email!";
+            if(service->send(msg))
+            {
+                qDebug() << "[EMAIL] Email sent successfully!";
+            } else qDebug() << "[EMAIL] Unable to send Email!";
 #endif
+        }
+    }
+}
 
+void NotePainterWidget::showExpanded()
+{
+#ifdef Q_WS_MAC
+    show();
+#else
+    showFullScreen();
+#endif
 }
 
 /* =========================================================================

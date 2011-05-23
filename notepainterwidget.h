@@ -31,6 +31,7 @@ public:
     void loadNotes();
     void setIcon(QPixmap pixmap);
     void sendNote();
+    void showExpanded();
     QIcon getIcon();
     QPixmap getPageOne();
     QString getFilename();

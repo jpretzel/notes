@@ -122,7 +122,7 @@ void MainWindow::addNoteToGrid(NoteButton *b){
 
     qDebug() << "[connecting NoteButton]" << b;
     connect(b, SIGNAL(updateMe(NoteButton *)), this, SLOT(updateNoteButtonIcon(NoteButton *)));
-    connect(b, SIGNAL(deleteMe(NoteButton*)), this, SLOT(deleteNoteButton(NoteButton*)));
+    connect(b, SIGNAL(deleteMe(NoteButton *)), this, SLOT(deleteNoteButton(NoteButton*)));
     connect(b, SIGNAL(releaseEvent()), this, SLOT(resetLastPresspoint()));
 
     int row     = 0;
@@ -188,12 +188,6 @@ void MainWindow::on_menuCloseButton_clicked()
     ui->menuWidget->setEnabled(false);
 }
 
-void MainWindow::paintEvent(QPaintEvent *){
-    /*for(int i=0; i < _noteButtonList.size(); i++){
-        _noteButtonList.at(i)->updateIcon();
-    }*/
-}
-
 void MainWindow::on_quitButton_menu_clicked()
 {
     exit(0);
@@ -218,9 +212,8 @@ void MainWindow::loadNotes()
     {
         tempDir = dirEntrys.at(i);
 
-        // die erste Seite der Note holen
-        // sollte diese nicht existieren weil es sich um eine leere Seite handelt
-        // muss eine leere Pixmap erstellt und ¸bergeben werden
+        // get first page of the note
+        // if there is no first page create an empty pixmap
         QFile firstPage(_loadDir + tempDir + _dir + tempDir + "_0.png");
         if (firstPage.exists())
         {
@@ -254,7 +247,7 @@ void MainWindow::showExpanded()
 void MainWindow::on_helpButton_menu_clicked()
 {
     HelpWidget * hw = new HelpWidget();
-    hw->show();
+    hw->showExpanded();
 }
 
 void MainWindow::updateGrid(){
@@ -284,11 +277,16 @@ void MainWindow::deleteNoteButton(NoteButton * b){
     qDebug() << "[DELETE SIGNAL]" << b;
     QString deleteFolder = _loadDir + b->getFileName();
     QStringList deleteFiles = QDir(deleteFolder).entryList();
+
+    // delete files (only empty folders can be deleted)
     for(int i = _startI; i < deleteFiles.size(); i++)
     {
         QDir().remove(deleteFolder + _dir + deleteFiles.at(i));
     }
+
+    // after all files are deleted the folder can be removed
     QDir().rmdir(deleteFolder);
+
     _noteButtonList.removeOne(b);
     _noteButtonGroup.removeButton(b);
     updateGrid();
@@ -299,17 +297,7 @@ void MainWindow::on_delButton_menu_clicked()
 {
     qDebug() << "[DELETE]" << _noteButtonGroup.checkedButton();
 
-    QString deleteFolder = _loadDir + _noteButtonList.at(_noteButtonGroup.checkedId())->getFileName();
-    QStringList deleteFiles = QDir(deleteFolder).entryList();
-    for(int i = _startI; i < deleteFiles.size(); i++)
-    {
-        QDir().remove(deleteFolder + _dir + deleteFiles.at(i));
-    }
-    QDir().rmdir(deleteFolder);
-
-    _noteButtonList.removeAt(_noteButtonGroup.checkedId());
-    _noteButtonGroup.checkedButton()->deleteLater();
-    updateGrid();
+    deleteNoteButton(_noteButtonList.at(_noteButtonGroup.checkedId()));
     on_menuCloseButton_clicked();
 }
 

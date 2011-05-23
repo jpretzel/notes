@@ -23,7 +23,16 @@ void HelpWidget::showNotePainterWidgetHelp(){
     ui->secondWidget->setVisible(true);
 }
 
-void HelpWidget::on_cancelButton_2_clicked()
+void HelpWidget::on_nextButton_clicked()
 {
     ui->secondWidget->setVisible(!ui->secondWidget->isVisible());
+}
+
+void HelpWidget::showExpanded()
+{
+#ifdef Q_WS_MAC
+    show();
+#else
+    showFullScreen();
+#endif
 }

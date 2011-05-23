@@ -11,11 +11,7 @@ NoteButton::NoteButton()
     setCheckable(true);
     painterWidget = new NotePainterWidget();
     doConnect();
-#if defined(Q_WS_MAC)
-    painterWidget->show();
-#else
-    painterWidget->showFullScreen();
-#endif
+    painterWidget->showExpanded();
 }
 
 NoteButton::NoteButton(QPixmap pixmap, QString fileName)
@@ -85,12 +81,7 @@ void NoteButton::openNote()
         }
     }
 
-#if defined(Q_WS_MAC)
-    painterWidget->show();
-#else
-    painterWidget->showFullScreen();
-#endif
-    doConnect();
+    painterWidget->showExpanded();
 }
 
 QString NoteButton::getFileName()
