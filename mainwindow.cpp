@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
 #if defined(Q_WS_MAC)
-    _loadDir = "/Users/sebastian/Desktop/notes/";
+    _loadDir = "/Users/jan/Desktop/notes/";
     // startI = 2 um . und .. auszuschlieﬂen
     _startI = 2;
     _dir = "/";
@@ -54,8 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
     _pageCounter    = 1;
     _itemCounter    = 0;
     _currentPage    = 0;
-    _p1             = QPoint(-1, -1);
-    _p2             = QPoint(-1, -1);
+    _lastPresspoint = -1;
 
     _gridLayout = (QGridLayout*)ui->noteWidget->layout();
 
@@ -75,25 +74,37 @@ MainWindow::~MainWindow()
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    // _p1 takes _p2's old value
-    if (_p2.y() != -1){
-        _p1 = _p2;
-    }
+    // fake a mousePressEvent because the real one
+    // could be caught by a button
+    if (_lastPresspoint == -1)
+    {
+        _lastPresspoint = event->globalPos().y();
+        _lastScrollBarPos = ui->scrollArea->verticalScrollBar()->value();
+    } else {
+        int scrollPos = _lastScrollBarPos - (event->globalPos().y() - _lastPresspoint);
+        const int min = ui->scrollArea->verticalScrollBar()->minimum();
+        const int max = ui->scrollArea->verticalScrollBar()->maximum();
 
-    _p2 = event->pos();
+        // consider the limits
+        if (scrollPos > max)
+        {
+            scrollPos = max;
+        } else if (scrollPos < min) {
+            scrollPos = min;
+        }
 
-    // if both points got a value manipultae the position of the scrollBar
-    if(_p1.y() != -1){
-        int newPosition = ui->scrollArea->verticalScrollBar()->value() + (_p1.y() - _p2.y());
-        ui->scrollArea->verticalScrollBar()->setValue(newPosition);
+        ui->scrollArea->verticalScrollBar()->setValue(scrollPos);
     }
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *)
 {
-    // ivalidate points for new scrolling
-    _p1 = QPoint(-1, -1);
-    _p2 = QPoint(-1, -1);
+    _lastPresspoint = -1;
+}
+
+void MainWindow::resetLastPresspoint()
+{
+    _lastPresspoint = -1;
 }
 
 void MainWindow::on_addButton_clicked()
@@ -112,6 +123,7 @@ void MainWindow::addNoteToGrid(NoteButton *b){
     qDebug() << "[connecting NoteButton]" << b;
     connect(b, SIGNAL(updateMe(NoteButton *)), this, SLOT(updateNoteButtonIcon(NoteButton *)));
     connect(b, SIGNAL(deleteMe(NoteButton*)), this, SLOT(deleteNoteButton(NoteButton*)));
+    connect(b, SIGNAL(releaseEvent()), this, SLOT(resetLastPresspoint()));
 
     int row     = 0;
     int column  = 0;
@@ -159,8 +171,10 @@ void MainWindow::on_menuButton_clicked()
     if(_noteButtonGroup.checkedId() == -1)
     {
         ui->sendButton_menu->setDisabled(true);
+        ui->delButton_menu->setDisabled(true);
     } else {
         ui->sendButton_menu->setEnabled(true);
+        ui->delButton_menu->setEnabled(true);
     }
 
     ui->menuWidget->setVisible(true);
@@ -223,6 +237,7 @@ void MainWindow::loadNotes()
 void MainWindow::on_sendButton_menu_clicked()
 {
     _noteButtonList.at(_noteButtonGroup.checkedId())->getNotePainterWidget()->sendNote();
+    _noteButtonList.at(_noteButtonGroup.checkedId())->setNotePainterWidget(NULL);
 
     on_menuCloseButton_clicked();
 }
@@ -244,22 +259,22 @@ void MainWindow::updateGrid(){
 
     // Clearing the gridLayout
     QLayoutItem *child;
-     while ((child = _gridLayout->takeAt(0)) != 0) {
-         _gridLayout->removeItem(_gridLayout->takeAt(0));
-         delete child;
-     }
+    while ((child = _gridLayout->takeAt(0)) != 0) {
+        _gridLayout->removeItem(_gridLayout->takeAt(0));
+        delete child;
+    }
 
     // rebuild
-     int row     = 0;
-     int column  = 0;
-     for(int i = 0; i < _noteButtonList.size(); i++){
-         if(column > 1){
-             row++;
-             column = 0;
-         }
-         _gridLayout->addWidget(_noteButtonList.at(i), row, column++, Qt::AlignTop);
-         _noteButtonGroup.addButton(_noteButtonList.at(i), i);
-     }
+    int row     = 0;
+    int column  = 0;
+    for(int i = 0; i < _noteButtonList.size(); i++){
+        if(column > 1){
+            row++;
+            column = 0;
+        }
+        _gridLayout->addWidget(_noteButtonList.at(i), row, column++, Qt::AlignTop);
+        _noteButtonGroup.addButton(_noteButtonList.at(i), i);
+    }
     updateMinimumHeight();
 }
 
@@ -299,4 +314,5 @@ void MainWindow::on_delButton_menu_clicked()
 void MainWindow::on_addButton_menu_clicked()
 {
     on_addButton_clicked();
+    on_menuCloseButton_clicked();
 }

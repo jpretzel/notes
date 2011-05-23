@@ -35,6 +35,7 @@ public slots:
 signals:
     void updateMe(NoteButton *);
     void deleteMe(NoteButton *);
+    void releaseEvent();
 
 protected:
     void mousePressEvent(QMouseEvent *);

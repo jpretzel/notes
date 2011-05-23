@@ -42,8 +42,8 @@ private:
     int _startI;
     QString _loadDir;
     QString _dir;
-    QPoint _p1;
-    QPoint _p2;
+    int _lastPresspoint;
+    int _lastScrollBarPos;
     void clearPage();
     QGridLayout * _gridLayout;
     NotePainterWidget *_notepainterwidget;
@@ -59,6 +59,7 @@ public slots:
     void paintEvent(QPaintEvent *);
     void updateNoteIcons();
     void deleteNoteButton(NoteButton *);
+    void resetLastPresspoint();
 
 private slots:
     void on_quitButton_menu_clicked();

@@ -16,9 +16,6 @@ NoteButton::NoteButton()
 #else
     painterWidget->showFullScreen();
 #endif
-
-    _p1             = QPoint(-1, -1);
-    _p2             = QPoint(-1, -1);
 }
 
 NoteButton::NoteButton(QPixmap pixmap, QString fileName)
@@ -30,9 +27,6 @@ NoteButton::NoteButton(QPixmap pixmap, QString fileName)
     setStyleSheet("NoteButton:checked{background-image: url(:/backgrounds/images/highlightframe.png);}");
     setFlat(true);
     setCheckable(true);
-
-    _p1             = QPoint(-1, -1);
-    _p2             = QPoint(-1, -1);
 }
 
 void NoteButton::loadStyleSheet(){
@@ -75,6 +69,7 @@ void NoteButton::mouseReleaseEvent(QMouseEvent *event)
         openNote();
 
     setChecked(true);
+    emit(releaseEvent());
 }
 
 void NoteButton::openNote()
