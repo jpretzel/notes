@@ -381,6 +381,7 @@ void NotePainterWidget::sendNote()
 
     QMessage msg;
     msg.setType(QMessage::Email);
+    msg.setBody("Hi there!\nPlease see the attachements. \n\n---\n(notes) made by Jan Pretzel & Sebastian Ullrich")
 
     // Setting the stored EmailAdress as sender.
     msg.setParentAccountId(QMessageAccount::defaultAccount(QMessage::Email));
@@ -395,6 +396,8 @@ void NotePainterWidget::sendNote()
     {
         absPath.append(_loadDir + _fileName + _dir + notePages.at(i));
     }
+
+    msg.
 
     msg.appendAttachments(absPath);
 
