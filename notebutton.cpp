@@ -20,7 +20,8 @@ NoteButton::NoteButton(QPixmap pixmap, QString fileName)
     setIconSize(QSize(111, 197));
     setIcon(pixmap);
     this->_fileName = fileName;
-    setStyleSheet("NoteButton:checked{background-image: url(:/backgrounds/images/highlightframe.png);}");
+    //setStyleSheet("NoteButton:checked{background-image: url(:/backgrounds/images/highlightframe.png);}");
+    setStyleSheet("NoteButton:checked{border: 2px solid black; background-color: black}");
     setFlat(true);
     setCheckable(true);
 }
@@ -61,7 +62,7 @@ void NoteButton::mousePressEvent(QMouseEvent *event)
 void NoteButton::mouseReleaseEvent(QMouseEvent *event)
 {
     _p2 = event->pos();
-    if(abs(_p1.x() - _p2.x()) < 10 && abs(_p1.y() - _p2.y()) < 10 && isChecked())
+    if(abs(_p1.x() - _p2.x()) < 20 && abs(_p1.y() - _p2.y()) < 20 && isChecked())
         openNote();
 
     setChecked(true);
@@ -81,6 +82,7 @@ void NoteButton::openNote()
         }
     }
 
+    doConnect();
     painterWidget->showExpanded();
 }
 

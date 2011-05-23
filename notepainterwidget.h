@@ -72,7 +72,6 @@ private:
     void showBackgroundMenu(bool);
     void saveState();
     void createIcon();
-    void closeEvent(QCloseEvent *);
     void paintToPixmap();
     void initDrawTools();
     void saveImages();

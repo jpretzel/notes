@@ -45,7 +45,6 @@ private:
     QString _dir;
     int _lastPresspoint;
     int _lastScrollBarPos;
-    void clearPage();
     QGridLayout * _gridLayout;
     NotePainterWidget *_notepainterwidget;
     QList<NoteButton *> _noteButtonList;
@@ -55,9 +54,9 @@ private:
     void sendNoteViaEmail();
     void updateGrid();
     void updateMinimumHeight();
+    void doConnect(NoteButton *);
 
 public slots:
-    void updateNoteIcons();
     void deleteNoteButton(NoteButton *);
 
 private slots:

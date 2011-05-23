@@ -26,7 +26,7 @@
 
 #define NOTES_PER_PAGE 4
 #define NOTES_PER_ROW  2
-#define DYNAMIC_HEIGHT 289
+#define DYNAMIC_HEIGHT 275
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -57,6 +57,9 @@ MainWindow::MainWindow(QWidget *parent)
     _lastPresspoint = -1;
 
     _gridLayout = (QGridLayout*)ui->noteWidget->layout();
+    _gridLayout->setAlignment(Qt::AlignTop);
+    _gridLayout->setVerticalSpacing(75);
+    _gridLayout->setHorizontalSpacing(40);
 
     ui->menuWidget->setVisible(false);
     ui->menuWidget->setEnabled(false);
@@ -113,34 +116,42 @@ void MainWindow::on_addButton_clicked()
 
     NoteButton * nb = new NoteButton();
     addNoteToGrid(nb);
+    doConnect(nb);
+}
+
+void MainWindow::doConnect(NoteButton *b)
+{
+    qDebug() << "[connecting NoteButton]" << b;
+    connect(b, SIGNAL(updateMe(NoteButton *)), this, SLOT(updateNoteButtonIcon(NoteButton *)));
+    connect(b, SIGNAL(deleteMe(NoteButton *)), this, SLOT(deleteNoteButton(NoteButton*)));
+    connect(b, SIGNAL(releaseEvent()), this, SLOT(resetLastPresspoint()));
 }
 
 void MainWindow::addNoteToGrid(NoteButton *b){
     qDebug() << "[ADDING NOTE TO GRID]" << b;
 
-    _noteButtonList.append(b);
+    qDebug() << _gridLayout->count();
+    int row = _gridLayout->count() / 2;
+    int column = 0;
+    if (_gridLayout->count() % 2 == 1)
+    {
+        column = 1;
+    }
 
-    qDebug() << "[connecting NoteButton]" << b;
-    connect(b, SIGNAL(updateMe(NoteButton *)), this, SLOT(updateNoteButtonIcon(NoteButton *)));
-    connect(b, SIGNAL(deleteMe(NoteButton *)), this, SLOT(deleteNoteButton(NoteButton*)));
-    connect(b, SIGNAL(releaseEvent()), this, SLOT(resetLastPresspoint()));
+    _gridLayout->addWidget(b, row, column++);
 
-    int row     = 0;
-    int column  = 0;
-    for(int i = 0; i < _noteButtonList.size(); i++){
-        if(column > 1){
-            row++;
-            column = 0;
-        }
-        _gridLayout->addWidget(_noteButtonList.at(i), row, column++, Qt::AlignTop);
-        _noteButtonGroup.addButton(_noteButtonList.at(i), i);
+    if (!_noteButtonList.contains(b))
+    {
+        _noteButtonList.append(b);
+        _noteButtonGroup.addButton(b, _noteButtonList.size() - 1);
     }
 
     updateMinimumHeight();
     update();
 }
 
-void MainWindow::updateMinimumHeight(){
+void MainWindow::updateMinimumHeight()
+{
     qDebug() << "[UPDATING MINIMUM HEIGHT] " << _noteButtonList.size();
 
     if(_noteButtonList.size() % 2 == 0){
@@ -150,13 +161,6 @@ void MainWindow::updateMinimumHeight(){
         ui->scrollAreaWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.size()/2) + DYNAMIC_HEIGHT);
         ui->noteWidget->setMinimumHeight(DYNAMIC_HEIGHT * (_noteButtonList.size()/2) + DYNAMIC_HEIGHT);
     }
-}
-
-void MainWindow::clearPage(){
-    // Delete
-    /*while(_noteList.size() > 0){
-        delete(_noteList.takeFirst());
-    }*/
 }
 
 void MainWindow::updateNoteButtonIcon(NoteButton * b){
@@ -190,10 +194,7 @@ void MainWindow::on_menuCloseButton_clicked()
 
 void MainWindow::on_quitButton_menu_clicked()
 {
-    exit(0);
-}
-
-void MainWindow::updateNoteIcons(){
+    qApp->quit();
 }
 
 void MainWindow::loadNotes()
@@ -224,9 +225,13 @@ void MainWindow::loadNotes()
         } else {
             pixmap.fill(Qt::transparent);
         }
-        addNoteToGrid(new NoteButton(pixmap, dirEntrys.at(i)));
+
+        NoteButton * button = new NoteButton(pixmap, dirEntrys.at(i));
+        addNoteToGrid(button);
+        doConnect(button);
     }
 }
+
 void MainWindow::on_sendButton_menu_clicked()
 {
     _noteButtonList.at(_noteButtonGroup.checkedId())->getNotePainterWidget()->sendNote();
@@ -250,8 +255,8 @@ void MainWindow::on_helpButton_menu_clicked()
     hw->showExpanded();
 }
 
-void MainWindow::updateGrid(){
-
+void MainWindow::updateGrid()
+{
     // Clearing the gridLayout
     QLayoutItem *child;
     while ((child = _gridLayout->takeAt(0)) != 0) {
@@ -259,21 +264,17 @@ void MainWindow::updateGrid(){
         delete child;
     }
 
-    // rebuild
-    int row     = 0;
-    int column  = 0;
-    for(int i = 0; i < _noteButtonList.size(); i++){
-        if(column > 1){
-            row++;
-            column = 0;
-        }
-        _gridLayout->addWidget(_noteButtonList.at(i), row, column++, Qt::AlignTop);
-        _noteButtonGroup.addButton(_noteButtonList.at(i), i);
+    int d = _noteButtonList.size();
+    for(int i = 0; i < d; i++)
+    {
+        addNoteToGrid(_noteButtonList.at(i));
     }
+
     updateMinimumHeight();
 }
 
-void MainWindow::deleteNoteButton(NoteButton * b){
+void MainWindow::deleteNoteButton(NoteButton * b)
+{
     qDebug() << "[DELETE SIGNAL]" << b;
     QString deleteFolder = _loadDir + b->getFileName();
     QStringList deleteFiles = QDir(deleteFolder).entryList();

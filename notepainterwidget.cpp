@@ -272,7 +272,7 @@ void NotePainterWidget::saveImages()
 
         if (_fileName == "")
         {
-            _fileName = QDateTime::currentDateTime().toString("yymmddhhmmss");
+            _fileName = QDateTime::currentDateTime().toString("yyMMddhhmmss");
         }
 
         // create sub_directory
@@ -348,13 +348,6 @@ void NotePainterWidget::createIcon()
 QIcon NotePainterWidget::getIcon()
 {
     return this->_icon;
-}
-
-void NotePainterWidget::closeEvent(QCloseEvent *)
-{
-    saveImages();
-    emit(closeSignal());
-    createIcon();
 }
 
 void NotePainterWidget::sendNote()
@@ -532,6 +525,10 @@ void NotePainterWidget::on_backButton_clicked()
 {
     // so it is closed when you reopen the Note
     showBackgroundMenu(false);
+
+    saveImages();
+    createIcon();
+    emit(closeSignal());
     this->close();
 }
 
