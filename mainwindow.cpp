@@ -20,9 +20,10 @@
 #include <QString>
 #include <QList>
 
-
 #include <QPainter>
 #include <QScrollBar>
+
+#include "helpwidget.h"
 
 #define NOTES_PER_PAGE 4
 #define NOTES_PER_ROW  2
@@ -34,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
 #if defined(Q_WS_MAC)
-    _loadDir = "/Users/sebastian/Desktop/notes/";
+    _loadDir = "/Users/jan/Desktop/notes/";
     // startI = 2 um . und .. auszuschlieﬂen
     _startI = 2;
     _dir = "/";
@@ -252,6 +253,7 @@ void MainWindow::on_helpButton_menu_clicked()
 {
     HelpWidget * hw = new HelpWidget();
     hw->showExpanded();
+    on_menuCloseButton_clicked();
 }
 
 void MainWindow::updateGrid()

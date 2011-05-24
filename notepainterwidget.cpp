@@ -37,7 +37,7 @@ NotePainterWidget::NotePainterWidget(QWidget *parent) :
     ui->setupUi(this);
 
 #if defined(Q_WS_MAC)
-    _loadDir = "/Users/sebastian/Desktop/notes/";
+    _loadDir = "/Users/jan/Desktop/notes/";
     _dir = "/";
 
     // handle the "." and ".." folders
