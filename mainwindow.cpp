@@ -26,7 +26,7 @@
 
 #define NOTES_PER_PAGE 4
 #define NOTES_PER_ROW  2
-#define DYNAMIC_HEIGHT 275
+#define DYNAMIC_HEIGHT 260
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
 #if defined(Q_WS_MAC)
-    _loadDir = "/Users/jan/Desktop/notes/";
+    _loadDir = "/Users/sebastian/Desktop/notes/";
     // startI = 2 um . und .. auszuschlieﬂen
     _startI = 2;
     _dir = "/";
@@ -58,8 +58,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     _gridLayout = (QGridLayout*)ui->noteWidget->layout();
     _gridLayout->setAlignment(Qt::AlignTop);
-    _gridLayout->setVerticalSpacing(75);
-    _gridLayout->setHorizontalSpacing(40);
+    _gridLayout->setVerticalSpacing(46);
 
     ui->menuWidget->setVisible(false);
     ui->menuWidget->setEnabled(false);

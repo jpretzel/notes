@@ -20,8 +20,8 @@ NoteButton::NoteButton(QPixmap pixmap, QString fileName)
     setIconSize(QSize(111, 197));
     setIcon(pixmap);
     this->_fileName = fileName;
-    //setStyleSheet("NoteButton:checked{background-image: url(:/backgrounds/images/highlightframe.png);}");
-    setStyleSheet("NoteButton:checked{border: 2px solid black; background-color: black}");
+    setStyleSheet("NoteButton:checked{background-image: url(:/backgrounds/images/highlightframe.png);}");
+    //setStyleSheet("NoteButton:checked{border: 2px solid black; background-color: black}");
     setFlat(true);
     setCheckable(true);
 }

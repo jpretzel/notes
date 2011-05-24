@@ -30,12 +30,14 @@ SOURCES += main.cpp \
             mainwindow.cpp \
             notebutton.cpp \
             notepainterwidget.cpp \
-            sendnotedialog.cpp
+            sendnotedialog.cpp \
+            helpwidget.cpp
 
 HEADERS += mainwindow.h \
             notebutton.h \
             notepainterwidget.h \
-            sendnotedialog.h
+            sendnotedialog.h \
+            helpwidget.h
 
 FORMS += mainwindow.ui \
             notepainterwidget.ui \
