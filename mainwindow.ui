@@ -628,9 +628,9 @@ QPushButton:pressed {
      <widget class="QWidget" name="noteWidget" native="true">
       <property name="geometry">
        <rect>
-        <x>27</x>
+        <x>25</x>
         <y>10</y>
-        <width>306</width>
+        <width>310</width>
         <height>560</height>
        </rect>
       </property>
@@ -642,13 +642,13 @@ QPushButton:pressed {
       </property>
       <property name="minimumSize">
        <size>
-        <width>306</width>
+        <width>310</width>
         <height>552</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>306</width>
+        <width>310</width>
         <height>560</height>
        </size>
       </property>
