@@ -9,6 +9,21 @@ namespace Ui {
     class NotePainterWidget;
 }
 
+/**
+ * NotePainterWidget handles the painting on the screen. It is also
+ * responsible for saving and loading the notes, beeing painted, to and
+ * from the filesystem. It also creates the icon for NoteButton.
+ * To handle the painting several event functions from Qt have been
+ * overwritten. In detail these are paintEvent(QPaintEvent *)
+ * void mouseMoveEvent(QMouseEvent *) void mousePressEvent(QMouseEvent *)
+ * void mouseReleaseEvent(QMouseEvent *).
+ *
+ * Furthermore sending of the note via email is also handled in this calss.
+ * To send an email the Qt Mobility APIs are used.
+ *
+ * @author Jan Pretzel (jan.pretzel@deepsource.de)
+ * @author Sebastian Ullrich (sebastian.ullrich@deepsource.de)
+ */
 class NotePainterWidget : public QWidget
 {
     Q_OBJECT
@@ -39,12 +54,8 @@ public:
 private:
     Ui::NotePainterWidget *ui;
 
-    // Gesture recording data:
-    QPoint _lastPoint;
-
     // GUI control flags:
     bool _drawMode;
-    bool _lineDrawMode;
     bool _dogEarClicked;
     bool _upperDogEarClicked;
     bool _paintWidgetDisabled;
@@ -70,7 +81,6 @@ private:
 
     // Methods:
     void showBackgroundMenu(bool);
-    void saveState();
     void createIcon();
     void paintToPixmap();
     void initDrawTools();
@@ -89,7 +99,6 @@ private slots:
     void on_rubberButton_clicked();
     void on_closeButton_clicked();
     void on_sendButton_clicked();
-
     void on_delButton_clicked();
 
 signals:

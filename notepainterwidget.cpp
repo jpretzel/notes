@@ -2,8 +2,6 @@
 #include "ui_notepainterwidget.h"
 #include <QPainter>
 #include <QColor>
-#include <QMatrix>
-#include <QDebug>
 #include <QMouseEvent>
 #include <QDir>
 #include <QDateTime>
@@ -30,6 +28,12 @@
 QTM_USE_NAMESPACE
 #endif
 
+/**
+ * @brief Constructor of NotePainterWidget.
+ *
+ * Sets initial values of attributes and initialises the
+ * the painter used to draw.
+ */
 NotePainterWidget::NotePainterWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::NotePainterWidget)
@@ -80,11 +84,21 @@ NotePainterWidget::NotePainterWidget(QWidget *parent) :
     initDrawTools();
 }
 
+/**
+ * @brief Deconstructor of NotePainterWidget.
+ */
 NotePainterWidget::~NotePainterWidget()
 {
     delete ui;
 }
 
+/**
+ * @brief Initialises everything that is needed to draw properly.
+ *
+ * Sets an empty QPixmap with transparent background to the current page
+ * of the note if there wasn't one before.
+ * Also sets the 2 points used to handle the drawing to the reset values.
+ */
 void NotePainterWidget::initDrawTools()
 {
     if (_pixmap[_currentPage].isNull())
@@ -97,6 +111,9 @@ void NotePainterWidget::initDrawTools()
     _p2 = QPoint(NIRVANA, NIRVANA);
 }
 
+/**
+ * @brief Draws the QPixmap of the current page to the Screen.
+ */
 void NotePainterWidget::paintEvent(QPaintEvent *)
 {
     // workaround to display backgrounds on custom widgets
@@ -111,6 +128,14 @@ void NotePainterWidget::paintEvent(QPaintEvent *)
     painter.drawPixmap(QPoint(0, 0), _pixmap[_currentPage]);
 }
 
+/**
+ * @brief Decides what mode to activate.
+ *
+ * Possible modes are _drawMode, _dogEarClicked or _upperDogEarClicked.
+ *
+ * @param event
+ *      The event that will be handled.
+ */
 void NotePainterWidget::mousePressEvent(QMouseEvent * event)
 {
     if (event->pos().x() > DOGEARZONE_X && event->pos().y() > DOGEARZONE_Y)
@@ -122,11 +147,22 @@ void NotePainterWidget::mousePressEvent(QMouseEvent * event)
         _drawMode = false;
     } else {
         _drawMode           = true;
+
+        // set first position and reset 2nd point
         _p1 = event->pos();
         _p2 = QPoint(NIRVANA, NIRVANA);
     }
 }
 
+/**
+ * @brief Handles drawing of lines.
+ *
+ * If _drawMode is true we capture points while moving the "mouse" and
+ * draw a lines between this points on a QPixmap, by calling paintToPixmap().
+ *
+ * @param event
+ *      The event that will be handled.
+ */
 void NotePainterWidget::mouseMoveEvent(QMouseEvent * event)
 {
     if (_drawMode)
@@ -141,6 +177,16 @@ void NotePainterWidget::mouseMoveEvent(QMouseEvent * event)
     }
 }
 
+/**
+ * @brief Detects if one of the dogears was clicked/draged or if we need to draw.
+ *
+ * If one of the dogears was clicked, either a page turn is done,
+ * or the menu will be opned. If no dogear was clicked drawing will be
+ * performed.
+ *
+ * @param event
+ *      The event that will be handled.
+ */
 void NotePainterWidget::mouseReleaseEvent(QMouseEvent * event)
 {
     // (lower) dogear clicked
@@ -151,6 +197,8 @@ void NotePainterWidget::mouseReleaseEvent(QMouseEvent * event)
         {
             // menu was activated
             showBackgroundMenu(true);
+
+            // next page
         } else if (_currentPage < MAX_PAGES) {
             _currentPage++;
             initDrawTools();
@@ -159,6 +207,7 @@ void NotePainterWidget::mouseReleaseEvent(QMouseEvent * event)
 
         // upper dogear clicked
     } else if (_upperDogEarClicked) {
+        // page back
         if (event->pos().y() > UPPER_DOGEARZONE_Y)
         {
             if (_currentPage > 0)
@@ -184,7 +233,7 @@ void NotePainterWidget::mouseReleaseEvent(QMouseEvent * event)
  * @brief Draws the painting events onto a QPixmap.
  *
  * The painting events are drawn to a QPixmap. This QPixmap
- * is drawn to the actual widget in @see { paintEvent(QPaintEvent *) }.
+ * is drawn to the actual widget in paintEvent(QPaintEvent *).
  */
 void NotePainterWidget::paintToPixmap()
 {
@@ -221,7 +270,7 @@ void NotePainterWidget::paintToPixmap()
 /**
  * @brief Loads all images of a note, so they can be shown while the note is open.
  *
- * Loads all images belonging to the concerned note, and stores them in @see { _pixmap[] }
+ * Loads all images belonging to the concerned note, and stores them in _pixmap[].
  */
 void NotePainterWidget::loadNotes()
 {
@@ -236,13 +285,18 @@ void NotePainterWidget::loadNotes()
             {
                 // load the image as QPixmap and store it to the right page
                 QPixmap pixmap(loadDir + notePages.at(i));
-                qDebug() << loadDir + notePages.at(i);
                 _pixmap[notePages.at(i).mid(13, 1).toInt()] = pixmap;
             }
         }
     }
 }
 
+/**
+ * @brief Returns the first page of the note.
+ *
+ * @return
+ *      The first page of the note, beeing saved in _pixmap.
+ */
 QPixmap NotePainterWidget::getPageOne()
 {
     if (_pixmap[0].isNull())
@@ -254,11 +308,25 @@ QPixmap NotePainterWidget::getPageOne()
     return _pixmap[0];
 }
 
+/**
+ * @brief Returns the file name of the note.
+ *
+ * @return
+ *      The file name of the note.
+ */
 QString NotePainterWidget::getFilename()
 {
     return _fileName;
 }
 
+/**
+ * @brief Saves the pages of the note as images in the filesystem.
+ *
+ * If there have been any changes on any page of the note or one or more
+ * page(s) of the note have to be deleted this will be done here. If the
+ * note is new, _fileName will be set. Also directorys will be created
+ * and deleted here if needed.
+ */
 void NotePainterWidget::saveImages()
 {
     // no changes => do nothing
@@ -270,6 +338,7 @@ void NotePainterWidget::saveImages()
             QDir().mkdir(_loadDir);
         }
 
+        // set fileName if it is a new note
         if (_fileName == "")
         {
             _fileName = QDateTime::currentDateTime().toString("yyMMddhhmmss");
@@ -284,23 +353,13 @@ void NotePainterWidget::saveImages()
             QDir().mkdir(loadDir);
         }
 
-        for(int page = 0; page <= MAX_PAGES; page++){
+        for(int page = 0; page <= MAX_PAGES; page++)
+        {
             QFile file(loadDir + _fileName + "_" + QString::number(page) + ".png");
 
             if (_modified[page])
             {
-                QPixmap pixmap( 360, 640 );
-
-                // images must be saved with transparent background,
-                // so they can be loaded properly
-                pixmap.fill(Qt::transparent);
-                QPainter painter(&pixmap);
-                painter.setPen(_pen);
-
-                painter.setRenderHint(QPainter::Antialiasing, true);
-                painter.drawPixmap(QPoint(0, 0), _pixmap[page]);
-
-                pixmap.save(file.fileName());
+                _pixmap[page].save(file.fileName());
             } else if (_erase[page] && file.exists()) {
                 file.remove();
             }
@@ -321,17 +380,39 @@ void NotePainterWidget::saveImages()
     }
 }
 
+/**
+ * @brief Sets the name of the note to handle loading, saving and so on.
+ *
+ * @param newFileName
+ *      The new file name.
+ */
 void NotePainterWidget::setFileName(QString newFileName)
 {
     _fileName = newFileName;
 }
 
+/**
+ * @brief Sets the icon of the NotePainterWidget.
+ *
+ * A QPixmap is saved as the first page of the note, after that
+ * createIcon() is called to create the icon and save it to _icon.
+ *
+ * @param pixmap
+ *      The QPixmap that will be set as icon.
+ */
 void NotePainterWidget::setIcon(QPixmap pixmap)
 {
     _pixmap[0] = pixmap;
     createIcon();
 }
 
+/**
+ * @brief Creates the icon of the NotePainterWidget.
+ *
+ * Creates the icon of the NotePainterWidget, by filling a QPixmap
+ * with a white background and drawing the first page of the note
+ * on top of it. The QIcon will be saved in _icon.
+ */
 void NotePainterWidget::createIcon()
 {
     QPixmap pixmap( 360, 640 );
@@ -345,11 +426,25 @@ void NotePainterWidget::createIcon()
     this->_icon = pixmap;
 }
 
+/**
+ * @brief Returns the icon of the NotePainterWidget.
+ *
+ * @return
+ *      The QIcon of the NotePainterWidget.
+ */
 QIcon NotePainterWidget::getIcon()
 {
     return this->_icon;
 }
 
+/**
+ * @brief Sends the note using QMobility APIs.
+ *
+ * Opens a SendNoteDialog to get an email address. If the Dialog
+ * is left in the accepted mode the note will be send to the entered address,
+ * if not empty and passed the pre validation.
+ * The Symbian intern email API will handle everything else.
+ */
 void NotePainterWidget::sendNote()
 {
     QString emailAdress = SendNoteDialog::getEmailAdress(this);
@@ -357,6 +452,7 @@ void NotePainterWidget::sendNote()
     // OK Button was pressed and input field was not empty
     if (!emailAdress.isNull() && emailAdress != "")
     {
+        // Validate Email
         QRegExp rx("^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$", Qt::CaseInsensitive);
         if (!rx.exactMatch(emailAdress))
         {
@@ -364,22 +460,6 @@ void NotePainterWidget::sendNote()
                                  + QString::fromUtf8(" scheint keine gültige Email Adresse zu sein."));
         } else {
 #if !defined(Q_WS_MAC)
-            qDebug() << "[EMAIL]";
-
-            /*QStringList availableManagers = QContactManager::availableManagers();
-
-        for(int managerIdx = 0; managerIdx < availableManagers.count(); managerIdx++) {
-            QContactManager * manager = new QContactManager(availableManagers.at(managerIdx));
-
-            if(manager) {
-                QList<QContact> contacts = manager->contacts();
-                for(int i = 0; i < contacts.count(); i++){
-                    qDebug() << contacts.at(i);
-                }
-                delete manager;
-            }
-        }*/
-
             QMessageService * service = new QMessageService;
             QMessageAddress sendTo(QMessageAddress::Email, emailAdress);
 
@@ -393,6 +473,7 @@ void NotePainterWidget::sendNote()
             msg.setTo(sendTo);
             msg.setSubject("notes for you :)");
 
+            // load pages of the note and attach them to the email.
             QStringList notePages = QDir(_loadDir + _fileName).entryList();
             QStringList absPath;
 
@@ -405,13 +486,18 @@ void NotePainterWidget::sendNote()
 
             if(service->send(msg))
             {
-                qDebug() << "[EMAIL] Email sent successfully!";
-            } else qDebug() << "[EMAIL] Unable to send Email!";
+                // do nothing atm. Symbian email should handle error messages.
+            }
 #endif
         }
     }
 }
 
+/**
+ * @brief Handles how the Application will be shown on different Operating Systems.
+ *
+ * At the moment only Mac OS X gets a special treatment. Just add another OS if needed.
+ */
 void NotePainterWidget::showExpanded()
 {
 #ifdef Q_WS_MAC
@@ -428,7 +514,8 @@ void NotePainterWidget::showExpanded()
 /**
  * @brief Shows or hides the BackgroundMenu.
  *
- * @param show Defines whether the BackgroundMenu should be shown or hidden.
+ * @param show
+ *      Defines whether the BackgroundMenu should be shown or hidden.
  */
 void NotePainterWidget::showBackgroundMenu(bool show)
 {
@@ -462,6 +549,11 @@ void NotePainterWidget::on_menuButton_clicked()
 
 /**
  * @brief Clears the current page of the NotePainterWidget.
+ *
+ * After clearing the current page the page will be marked as not modified
+ * but to be deleted, so it can be handled correctly in saveImages().
+ * To do so _modified and _erase for this page are set.
+ *
  */
 void NotePainterWidget::on_clearButton_clicked()
 {
@@ -517,8 +609,9 @@ void NotePainterWidget::on_yellowButton_clicked()
 /**
  * @brief Closes the NotePainterWidget to return to the NoteMainWindow.
  *
- * Closes the concerned NotePainterWidget and saves the Note to the
- * filesystem by calling @see{ saveImages() }.
+ * Closes the concerned NotePainterWidget and saves the note to the
+ * filesystem by calling saveImages(). Also the signal closeSignal()
+ * is emitted and will be catched by NoteButton::NotePainterWidgetClosed().
  *
  */
 void NotePainterWidget::on_backButton_clicked()
@@ -541,7 +634,7 @@ void NotePainterWidget::on_quitButton_clicked()
 }
 
 /**
- * @brief Closes the BackgroundMenu by calling @see{ showBackgroundMenu(bool show) }.
+ * @brief Closes the BackgroundMenu by calling showBackgroundMenu(bool show).
  *
  * @note The Button lies on top of part of the BackgroundMenu and is transparent.
  */
@@ -586,12 +679,25 @@ void NotePainterWidget::on_rubberButton_clicked()
     ui->penButton->setChecked(false);
 }
 
+/**
+ * @brief Initiates sending of the note.
+ *
+ * Saves the pages of the note as images before initiating sending if this note.
+ * The pages need to be saved first so that the latest changes will be send.
+ */
 void NotePainterWidget::on_sendButton_clicked()
 {
     saveImages();
     sendNote();
 }
 
+/**
+ * @brief Initiates deleting of the note.
+ *
+ * To initiate deleting it emits the signal deleteSignal(), which will be
+ * catched by NoteButton::NotePainterWidgetDeleteTriggered() where further
+ * handling of the deletion process is done.
+ */
 void NotePainterWidget::on_delButton_clicked()
 {
     emit(deleteSignal());
