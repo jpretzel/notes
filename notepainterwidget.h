@@ -10,7 +10,8 @@ namespace Ui {
 }
 
 /**
- * NotePainterWidget handles the painting on the screen. It is also
+ * NotePainterWidget represents part of the note.
+ * It handles the painting on the screen. It is also
  * responsible for saving and loading the notes, beeing painted, to and
  * from the filesystem. It also creates the icon for NoteButton.
  * To handle the painting several event functions from Qt have been

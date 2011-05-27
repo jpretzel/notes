@@ -41,7 +41,8 @@ HEADERS += mainwindow.h \
 
 FORMS += mainwindow.ui \
             notepainterwidget.ui \
-            sendnotedialog.ui
+            sendnotedialog.ui \
+            helpwidget.ui
 
 # Please do not modify the following two lines. Required for deployment.
 include(deployment.pri)

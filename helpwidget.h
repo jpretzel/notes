@@ -7,6 +7,12 @@ namespace Ui {
     class HelpWidget;
 }
 
+/**
+ * HelpWidget represents the help dialog of the application.
+ *
+ * @author Jan Pretzel (jan.pretzel@deepsource.de)
+ * @author Sebastian Ullrich (sebastian.ullrich@deepsource.de)
+ */
 class HelpWidget : public QWidget
 {
     Q_OBJECT
@@ -14,7 +20,6 @@ class HelpWidget : public QWidget
 public:
     explicit HelpWidget(QWidget *parent = 0);
     ~HelpWidget();
-    void showNotePainterWidgetHelp();
     void showExpanded();
 
 private slots:

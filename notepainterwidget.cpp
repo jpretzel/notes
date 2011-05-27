@@ -85,7 +85,7 @@ NotePainterWidget::NotePainterWidget(QWidget *parent) :
 }
 
 /**
- * @brief Deconstructor of NotePainterWidget.
+ * @brief Destructor of NotePainterWidget.
  */
 NotePainterWidget::~NotePainterWidget()
 {
@@ -447,7 +447,7 @@ QIcon NotePainterWidget::getIcon()
  */
 void NotePainterWidget::sendNote()
 {
-    QString emailAdress = SendNoteDialog::getEmailAdress(this);
+    QString emailAdress = SendNoteDialog::getEmailAddress(this);
 
     // OK Button was pressed and input field was not empty
     if (!emailAdress.isNull() && emailAdress != "")
